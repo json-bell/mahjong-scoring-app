@@ -43,7 +43,7 @@ const TileInput = ({
                 type="radio"
                 value={suitOption}
                 checked={suit === suitOption}
-                id={`${inputId}-type`}
+                name={`${inputId}-suit`}
                 onChange={() => {
                   setSuit(suitOption);
                 }}
@@ -78,7 +78,7 @@ const TileInput = ({
                     type="radio"
                     value={tileOptionSlug}
                     checked={tileOptionSlug === tileSlug}
-                    id={`${inputId}-tile`}
+                    name={`${inputId}-tile`}
                     onChange={() => {
                       onTileSelect(tileOption);
                     }}

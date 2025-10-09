@@ -13,7 +13,7 @@ export const HandScorer = () => {
   const [result, setResult] = useState<unknown>(null);
   const { melds, pair, onMeldChange, onPairChange } = useMahjongHand();
 
-  const onScoreHand = async () => {
+  const onScoreHand = () => {
     const areInputsValid = melds.every(
       (meld): meld is MeldSchemaInput & { tile: Tile } => {
         return !!(meld.tile && meld.type);
@@ -30,12 +30,17 @@ export const HandScorer = () => {
       pair: { suit: "circle", value: "5" },
     };
 
-    const response = await scoreHand({ body: hand });
-    if (response.status === 400) {
-      setResult(response.error);
-      console.error(response.error);
-    }
-    if (response.status === 200) setResult(response.data);
+    scoreHand({ body: hand })
+      .then((response) => {
+        if (response.status === 400) {
+          setResult(response.error);
+          console.error(response.error);
+        }
+        if (response.status === 200) setResult(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -77,7 +82,7 @@ export const HandScorer = () => {
                         type="radio"
                         value={typeOption}
                         checked={type === typeOption}
-                        id={`meld-${meldIndex}-type`}
+                        name={`meld-${meldIndex}-type`}
                         onChange={() => {
                           onMeldChange(meldIndex, { type: typeOption });
                         }}
@@ -103,12 +108,12 @@ export const HandScorer = () => {
           <TileInput inputId="pair" onTileSelect={onPairChange} tile={pair} />
         </fieldset>
       </div>
-      <button onClick={void onScoreHand} type="button">
+      <button onClick={onScoreHand} type="button">
         Score Hand
       </button>
       <fieldset>
         <legend>Result:</legend>
-        {JSON.stringify(result, null, 4).replace("\n", "\n\n\n      ______")}
+        {JSON.stringify(result)}
       </fieldset>
     </>
   );
