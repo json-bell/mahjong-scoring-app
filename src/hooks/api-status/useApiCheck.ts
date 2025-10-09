@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // import { apiClient } from "../api/hey-api";
-import { getHealthCheck } from "../api";
+import { getHealthCheck } from "../../api";
 
 interface ApiCheck {
   isReady: boolean;
