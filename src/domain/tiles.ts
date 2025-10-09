@@ -1,6 +1,6 @@
 import type { Suit } from "../api";
 import { dragonValues, numberValues, windValues } from "./enums";
-import type { SuitTile, Tile, TilesBySuit, TileValue } from "./types";
+import type { SuitTile, Tile, TilesBySuit, TileSlug, TileValue } from "./types";
 
 /** Array of all tile values */
 export const tileValues: TileValue[] = [
@@ -38,3 +38,9 @@ export const tilesBySuit: TilesBySuit = {
 
 /** Array of all tiles */
 export const tiles: Tile[] = Object.values(tilesBySuit).flat();
+
+export const getTileSlug = ({ suit, value }: Tile): TileSlug => {
+  // if (suit === "wind") return `${value}-${suit}`;
+  // if (suit === "dragon") return `${value}-${suit}`;
+  return `${value}-${suit}` as TileSlug;
+};

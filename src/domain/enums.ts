@@ -33,9 +33,11 @@ import type { NumberedSuit } from "./types";
 /* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^_"  }]*/
 
 const meldTypesConst = ["chow", "pong", "kong"] as const;
+// @ts-expect-error TS6196: type intentionally unused
 type _MeldCheck = Assert<CheckEqual<MeldType, (typeof meldTypesConst)[number]>>;
 
 const suitsConst = ["circle", "bamboo", "character", "wind", "dragon"] as const;
+// @ts-expect-error TS6196: type intentionally unused
 type _SuitCheck = Assert<CheckEqual<Suit, (typeof suitsConst)[number]>>;
 
 const numberValuesConst = [
@@ -49,16 +51,19 @@ const numberValuesConst = [
   "8",
   "9",
 ] as const;
+// @ts-expect-error TS6196: type intentionally unused
 type _NumberCheck = Assert<
   CheckEqual<NumberValue, (typeof numberValuesConst)[number]>
 >;
 
 const dragonValuesConst = ["red", "green", "white"] as const;
+// @ts-expect-error TS6196: type intentionally unused
 type _DragonCheck = Assert<
   CheckEqual<DragonValue, (typeof dragonValuesConst)[number]>
 >;
 
 const windValuesConst = ["east", "south", "west", "north"] as const;
+// @ts-expect-error TS6196: type intentionally unused
 type _WindCheck = Assert<
   CheckEqual<WindValue, (typeof windValuesConst)[number]>
 >;
