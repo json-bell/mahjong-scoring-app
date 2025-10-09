@@ -10,6 +10,7 @@
     "tscheck": "tsc -b --noEmit",
     "preview": "vite preview",
     "generate-api": "yarn openapi-ts",
+    "generate-tile-svgs": "node ./scripts/generate-svg-index.js",
     "postinstall": "husky"
   },
   "dependencies": {
