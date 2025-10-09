@@ -27,14 +27,18 @@ const lookup = {
   w: { suit: "character" },
 };
 
+const miscLookup = {
+  hide: "hidden",
+  xx: "error",
+  any: "any",
+};
+
 const svgNameParser = (name) => {
   const cleanName = name.replace("-", "").replace("MJ", "");
-  if (cleanName.length !== 2)
-    return { parsedName: cleanName, isGameTile: false };
+  if (miscLookup[cleanName])
+    return { parsedName: miscLookup[cleanName], isGameTile: false };
 
   const suitChar = cleanName[0];
-  if (!lookup[suitChar]) return { parsedName: cleanName, isGameTile: false };
-
   const { suit, values } = lookup[suitChar];
   if (!values)
     return { parsedName: `${cleanName[1]}-${suit}`, isGameTile: true };

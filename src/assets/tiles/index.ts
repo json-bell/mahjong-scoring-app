@@ -78,6 +78,6 @@ export const rawTileSvgLookup = {
 
 export const miscTileSvgs = {
   'any': MJany,
-  'hide': MJhide,
-  'xx': MJxx_,
+  'hidden': MJhide,
+  'error': MJxx_,
 };
