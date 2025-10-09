@@ -3,6 +3,7 @@ import type { Suit } from "../../api";
 import type { Tile } from "../../domain/types";
 import { getTileSlug, tilesBySuit } from "../../domain/tiles";
 import { suits } from "../../domain/enums";
+import TileSvg from "../TileSvg/TileSvg";
 
 interface TileInputProps {
   tile: Tile | null;
@@ -60,17 +61,20 @@ const TileInput = ({
             padding: "0px",
             display: "flex",
             justifyContent: "space-evenly",
+            gap: "8px",
           }}
         >
           {tilesBySuit[suit].map((tileOption) => {
             const tileOptionSlug = getTileSlug(tileOption);
             return (
-              <li style={{ listStyle: "none" }} key={tileOptionSlug}>
+              <li
+                style={{ listStyle: "none", width: "100%" }}
+                key={tileOptionSlug}
+              >
                 <label
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    padding: "0px 12px",
                     cursor: "pointer",
                   }}
                 >
@@ -84,6 +88,7 @@ const TileInput = ({
                     }}
                   />
                   {tileOption.value}
+                  <TileSvg tile={tileOption} />
                 </label>
               </li>
             );
