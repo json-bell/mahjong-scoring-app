@@ -1,4 +1,4 @@
-import type { Suit } from "../api";
+import type { NumberValue, Suit } from "../api";
 import { dragonValues, numberValues, windValues } from "./enums";
 import type { SuitTile, Tile, TilesBySuit, TileSlug, TileValue } from "./types";
 
@@ -44,3 +44,32 @@ export const getTileSlug = ({ suit, value }: Tile): TileSlug => {
   // if (suit === "dragon") return `${value}-${suit}`;
   return `${value}-${suit}` as TileSlug;
 };
+
+const lookup: Record<number, NumberValue> = {
+  1: "1",
+  2: "2",
+  3: "3",
+  4: "4",
+  5: "5",
+  6: "6",
+  7: "7",
+  8: "8",
+  9: "9",
+};
+
+export const parseNumberValue = (number: number): NumberValue | null => {
+  const parsedValue = lookup[number];
+  if (parsedValue) return parsedValue;
+  return null;
+};
+
+const isHonourLookup = {
+  bamboo: false,
+  character: false,
+  circle: false,
+  dragon: true,
+  wind: true,
+} as const;
+
+export const isHonour = (suit: Suit): suit is "dragon" | "wind" =>
+  isHonourLookup[suit];
