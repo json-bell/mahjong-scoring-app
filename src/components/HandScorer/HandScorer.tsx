@@ -4,10 +4,10 @@ import {
   type HandCreateSchema,
   type MeldSchemaInput,
 } from "../../api";
-import { meldTypes, numberedSuits, suits } from "../../domain/enums";
 import useMahjongHand from "../../hooks/mahjong/useMahjongHands";
 import TileInput from "../Inputs/TileInput";
 import type { Tile } from "../../domain/types";
+import MeldInput from "../Inputs/MeldInput";
 
 export const HandScorer = () => {
   const [result, setResult] = useState<unknown>(null);
@@ -45,62 +45,27 @@ export const HandScorer = () => {
 
   return (
     <>
-      <div style={{ width: "100%" }}>
-        {melds.map(({ type, tile }, meldIndex) => {
-          const validSuits = type === "chow" ? numberedSuits : suits;
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {melds.map((meld, meldIndex) => {
+          const id = `meld-input-${meldIndex}`;
 
           return (
-            <fieldset
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-              key={`meld-${meldIndex}`}
-            >
-              <legend>Meld {meldIndex + 1}</legend>
-              {/* -----------
-                   MELD TYPE 
-                  ----------- */}
-              <ul
-                style={{
-                  padding: "0px",
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                {meldTypes.map((typeOption) => (
-                  <li style={{ listStyle: "none" }} key={typeOption}>
-                    <label
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: "0px 12px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <input
-                        type="radio"
-                        value={typeOption}
-                        checked={type === typeOption}
-                        name={`meld-${meldIndex}-type`}
-                        onChange={() => {
-                          onMeldChange(meldIndex, { type: typeOption });
-                        }}
-                      />
-                      {typeOption}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-              <TileInput
-                inputId={`meld-${meldIndex}`}
-                tile={tile}
-                suitOptions={validSuits}
-                onTileSelect={(newTile) => {
-                  onMeldChange(meldIndex, { tile: newTile });
-                }}
-              />
-            </fieldset>
+            <MeldInput
+              key={id}
+              inputId={id}
+              meld={meld}
+              name={`Meld ${meldIndex}`}
+              onMeldChange={(newPartialMeld) =>
+                onMeldChange(meldIndex, newPartialMeld)
+              }
+            />
           );
         })}
         <fieldset>

@@ -63,6 +63,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
         {inputStep && (
           <div
             style={{
+              zIndex: 10,
               position: "absolute",
               top: 0,
               left: 0,
