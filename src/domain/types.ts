@@ -1,5 +1,12 @@
 import type { valuesBySuit } from "./tiles";
-import type { NumberValue, DragonValue, WindValue, Suit } from "../api";
+import type {
+  NumberValue,
+  DragonValue,
+  WindValue,
+  Suit,
+  MeldType,
+} from "../api";
+import type { miscTileSvgs } from "../assets/tiles";
 
 export type NumberedSuit = Extract<Suit, "circle" | "bamboo" | "character">;
 
@@ -23,3 +30,10 @@ export type TileSlug =
   | `${NumberValue}-${NumberedSuit}`
   | `${DragonValue}-dragon`
   | `${WindValue}-wind`;
+
+export type MeldState = {
+  type: MeldType | null;
+  tile: Tile | null;
+};
+
+export type MiscTileSlug = keyof typeof miscTileSvgs;

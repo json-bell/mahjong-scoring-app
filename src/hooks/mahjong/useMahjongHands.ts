@@ -1,11 +1,5 @@
 import { useState } from "react";
-import type { MeldType } from "../../api";
-import type { Tile } from "../../domain/types";
-
-type MeldState = {
-  type: MeldType | null;
-  tile: Tile | null;
-};
+import type { MeldState, Tile } from "../../domain/types";
 
 const initialMelds = [0, 1, 2, 3].map(
   (): MeldState => ({ type: null, tile: null })
