@@ -1,0 +1,29 @@
+// From https://www.a11yproject.com/posts/how-to-hide-content/
+@mixin sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+@mixin respond($size) {
+  $width: map-get($breakpoints, $size);
+
+  @if $width {
+    @media (min-width: $width) {
+      @content;
+    }
+  } @else {
+    @warn "No breakpoint found for `#{$size}` in $breakpoints map.";
+  }
+}
