@@ -1,0 +1,101 @@
+@use "@styles/mixins" as *;
+
+.inputModal {
+  background-color: grey;
+  border: 3px solid white;
+  min-height: 320px;
+}
+
+.radioPills {
+  border: 0;
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 8px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 32px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    color: black;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    input[type="radio"] {
+      @include sr-only;
+    }
+
+    &:hover {
+      background: #f3f4f6;
+    }
+
+    &:has(input:focus-visible) {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+
+    &:has(input:checked) {
+      background: #2563eb;
+      color: white;
+    }
+  }
+}
+
+.radioTiles {
+  border: 0;
+  padding: 0;
+
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+
+  &.fourTilesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+
+  label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+
+    border-radius: 32px;
+    color: white;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-out;
+
+    --shadow-color: transparent;
+
+    box-shadow: 0 0 15px var(--shadow-color), inset 0 0 40px var(--shadow-color);
+
+    input[type="radio"] {
+      @include sr-only;
+    }
+
+    &:hover {
+      --shadow-color: purple;
+    }
+
+    &:has(input:focus-visible) {
+      --shadow-color: #60a5fa;
+      outline: 2px solid #2563eb;
+      outline-offset: 5px;
+    }
+
+    &:has(input:checked) {
+      --shadow-color: #1d4ed8;
+    }
+
+    &:has(input:checked):hover {
+      --shadow-color: rebeccapurple;
+    }
+  }
+}

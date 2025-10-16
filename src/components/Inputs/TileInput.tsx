@@ -4,6 +4,7 @@ import type { Tile } from "../../domain/types";
 import { getTileSlug, tilesBySuit } from "../../domain/tiles";
 import { suits } from "../../domain/enums";
 import TileSvg from "../TileSvg/TileSvg";
+import styles from "./Inputs.module.scss";
 
 interface TileInputProps {
   tile: Tile | null;
@@ -23,77 +24,50 @@ const TileInput = ({
 
   return (
     <div>
-      <ul
-        style={{
-          padding: "0px",
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-      >
+      <fieldset className={styles.radioPills}>
+        <legend>Suit</legend>
         {suitOptions.map((suitOption) => (
-          <li style={{ listStyle: "none" }} key={suitOption}>
-            <label
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "0px 12px",
-                cursor: "pointer",
+          <label key={suitOption}>
+            <input
+              type="radio"
+              value={suitOption}
+              checked={suit === suitOption}
+              name={`${inputId}-suit`}
+              onChange={() => {
+                setSuit(suitOption);
               }}
-            >
-              <input
-                type="radio"
-                value={suitOption}
-                checked={suit === suitOption}
-                name={`${inputId}-suit`}
-                onChange={() => {
-                  setSuit(suitOption);
-                }}
-              />
-              {suitOption}
-            </label>
-          </li>
+            />
+            {suitOption}
+          </label>
         ))}
-      </ul>
+      </fieldset>
 
       {suit ? (
-        <ul
-          style={{
-            padding: "0px",
-            display: "flex",
-            justifyContent: "space-evenly",
-            gap: "8px",
-          }}
+        <fieldset
+          className={`${styles.radioTiles} ${
+            tilesBySuit[suit].length === 4 ? styles.fourTilesGrid : ""
+          }`}
         >
+          <legend>Tile</legend>
           {tilesBySuit[suit].map((tileOption) => {
             const tileOptionSlug = getTileSlug(tileOption);
             return (
-              <li
-                style={{ listStyle: "none", width: "100%" }}
-                key={tileOptionSlug}
-              >
-                <label
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    cursor: "pointer",
+              <label key={tileOptionSlug}>
+                <input
+                  type="radio"
+                  value={tileOptionSlug}
+                  checked={tileOptionSlug === tileSlug}
+                  name={`${inputId}-tile`}
+                  onChange={() => {
+                    onTileSelect(tileOption);
                   }}
-                >
-                  <input
-                    type="radio"
-                    value={tileOptionSlug}
-                    checked={tileOptionSlug === tileSlug}
-                    name={`${inputId}-tile`}
-                    onChange={() => {
-                      onTileSelect(tileOption);
-                    }}
-                  />
-                  {tileOption.value}
-                  <TileSvg tile={tileOption} />
-                </label>
-              </li>
+                />
+                <TileSvg tile={tileOption} />
+                {tileOption.value}
+              </label>
             );
           })}
-        </ul>
+        </fieldset>
       ) : (
         "Please select a suit for the tile"
       )}

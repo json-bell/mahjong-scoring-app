@@ -5,6 +5,8 @@ import { isHonour, parseNumberValue } from "../../domain/tiles";
 import { meldTypes, numberedSuits, suits } from "../../domain/enums";
 import TileInput from "./TileInput";
 import type { MeldType } from "../../api";
+import styles from "./Inputs.module.scss";
+import Modal from "../UI/Modal/Modal";
 
 interface MeldInputProps {
   meld: MeldState;
@@ -19,11 +21,12 @@ const MeldInput: React.FC<MeldInputProps> = ({
   inputId,
   name,
 }) => {
-  const [inputStep, setInputStep] = useState<
-    "meldType" | "suit" | "value" | null
-  >(null);
-  // resets when closing the input
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const onModalClose = () => {
+    setIsModalOpen(false);
+  };
 
+  // resets when closing the input
   const [selectedType, setSelectedType] = useState<MeldType | null>(null);
   const validSuits = selectedType === "chow" ? numberedSuits : suits;
   const [selectedTile, setSelectedTile] = useState<Tile | null>(null);
@@ -32,7 +35,11 @@ const MeldInput: React.FC<MeldInputProps> = ({
     if (!type || !tile) return;
 
     onMeldChange({ type, tile });
-    setInputStep(null);
+    onModalClose();
+  };
+  const onClearInternal = () => {
+    setSelectedTile(null);
+    setSelectedType(null);
   };
 
   const previewedMeld = getPreviewTiles(meld);
@@ -41,74 +48,57 @@ const MeldInput: React.FC<MeldInputProps> = ({
     <>
       {/* CURRENTLY SELECTED MELD */}
       <fieldset
-        style={{ width: "50%", position: "relative", maxWidth: "500px" }}
+        style={{
+          width: "80%",
+          position: "relative",
+          maxWidth: "500px",
+        }}
       >
         <legend>{name}</legend>
         <button
           type={"button"}
           style={{
             background: "none",
-            border: "3px solid grey",
+            border: "none",
             width: "100%",
           }}
           onClick={() => {
             // reset when opening
-            setSelectedTile(null);
-            setSelectedType(null);
-            setInputStep("meldType");
+            onClearInternal();
+            setIsModalOpen(true);
           }}
         >
           <MeldPreview tiles={previewedMeld} />
         </button>
-        {inputStep && (
-          <div
-            style={{
-              zIndex: 10,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              backgroundColor: "grey",
-              border: "3px solid white",
-              minHeight: "320px",
-              width: "100%",
-              boxShadow: "8px 20px 16px magenta",
-            }}
-          >
-            <ul
-              style={{
-                padding: "0px",
-                display: "flex",
-                justifyContent: "space-evenly",
-              }}
-            >
+        <Modal
+          isOpen={isModalOpen}
+          onClose={onModalClose}
+          closeButtonContents={"Close"}
+        >
+          <fieldset className={styles.inputModal}>
+            <legend className={"sr-only"}>Meld Input</legend>
+
+            <fieldset className={styles.radioPills}>
+              <legend>Meld Type</legend>
               {meldTypes.map((typeOption) => (
-                <li style={{ listStyle: "none" }} key={typeOption}>
-                  <label
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: "0px 12px",
-                      cursor: "pointer",
+                <label className={styles.pill} key={typeOption}>
+                  <input
+                    type="radio"
+                    value={typeOption}
+                    checked={selectedType === typeOption}
+                    name={`meld-${inputId}-type`}
+                    onChange={() => {
+                      setSelectedType(typeOption);
+                      onAttemptedSubmit({
+                        tile: selectedTile,
+                        type: typeOption,
+                      });
                     }}
-                  >
-                    <input
-                      type="radio"
-                      value={typeOption}
-                      checked={selectedType === typeOption}
-                      name={`meld-${inputId}-type`}
-                      onChange={() => {
-                        setSelectedType(typeOption);
-                        onAttemptedSubmit({
-                          tile: selectedTile,
-                          type: typeOption,
-                        });
-                      }}
-                    />
-                    {typeOption}
-                  </label>
-                </li>
+                  />
+                  {typeOption}
+                </label>
               ))}
-            </ul>
+            </fieldset>
             <TileInput
               inputId={`meld-input-tile-${inputId}`}
               tile={selectedTile}
@@ -121,25 +111,8 @@ const MeldInput: React.FC<MeldInputProps> = ({
                 });
               }}
             />
-
-            <button
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: "50%",
-                transform: "translate(-50%,100%)",
-                border: "3px solid white",
-                borderRadius: "0px 0px 16px 16px",
-                backgroundColor: "grey",
-              }}
-              onClick={() => {
-                setInputStep(null);
-              }}
-            >
-              Close
-            </button>
-          </div>
-        )}
+          </fieldset>
+        </Modal>
       </fieldset>
     </>
   );
