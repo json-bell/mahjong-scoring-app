@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateGameData, CreateGameErrors, CreateGameResponses, GetApiEndpointSummaryData, GetApiEndpointSummaryResponses, GetHealthCheckData, GetHealthCheckResponses, ReadGameByIdData, ReadGameByIdErrors, ReadGameByIdResponses, ReadGamesData, ReadGamesResponses, ReadRootData, ReadRootResponses, ScoreHandData, ScoreHandErrors, ScoreHandResponses } from './types.gen';
+import type { CreateGameData, CreateGameErrors, CreateGameHandData, CreateGameHandErrors, CreateGameHandResponses, CreateGameResponses, GetApiEndpointSummaryData, GetApiEndpointSummaryResponses, GetHealthCheckData, GetHealthCheckResponses, ReadGameByIdData, ReadGameByIdErrors, ReadGameByIdResponses, ReadGamesData, ReadGamesResponses, ReadHandsHandsGetData, ReadHandsHandsGetResponses, ReadRootData, ReadRootResponses, ScoreHandData, ScoreHandErrors, ScoreHandResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -30,6 +30,17 @@ export const scoreHand = <ThrowOnError extends boolean = false>(options: Options
             'Content-Type': 'application/json',
             ...options.headers
         }
+    });
+};
+
+/**
+ * Read Hands
+ */
+export const readHandsHandsGet = <ThrowOnError extends boolean = false>(options?: Options<ReadHandsHandsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ReadHandsHandsGetResponses, unknown, ThrowOnError>({
+        responseType: 'json',
+        url: '/hands/',
+        ...options
     });
 };
 
@@ -70,6 +81,22 @@ export const readGameById = <ThrowOnError extends boolean = false>(options: Opti
         responseType: 'json',
         url: '/games/{game_id}',
         ...options
+    });
+};
+
+/**
+ * Create Game Hand
+ * Creates a hand and adds it to a specific game
+ */
+export const createGameHand = <ThrowOnError extends boolean = false>(options: Options<CreateGameHandData, ThrowOnError>) => {
+    return (options.client ?? client).post<CreateGameHandResponses, CreateGameHandErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/games/{game_id}/hands',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     });
 };
 

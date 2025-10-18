@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   scoreHand,
   type HandCreateSchema,
+  type HandScoreExplanation,
   type MeldSchemaInput,
 } from "../../api";
 import useMahjongHand from "../../hooks/mahjong/useMahjongHands";
@@ -10,7 +11,8 @@ import type { Tile } from "../../domain/types";
 import MeldInput from "../Inputs/MeldInput";
 
 export const HandScorer = () => {
-  const [result, setResult] = useState<unknown>(null);
+  const [result, setResult] = useState<HandScoreExplanation | null>(null);
+  const [error, setError] = useState<unknown>(null);
   const { melds, pair, onMeldChange, onPairChange } = useMahjongHand();
 
   const onScoreHand = () => {
@@ -20,12 +22,11 @@ export const HandScorer = () => {
       }
     );
     if (!areInputsValid) {
-      setResult("Meld combination is not valid");
+      setError("Meld combination is not valid");
       return;
     }
 
     const hand: HandCreateSchema = {
-      game_id: 1,
       melds,
       pair: { suit: "circle", value: "5" },
     };
@@ -33,10 +34,13 @@ export const HandScorer = () => {
     scoreHand({ body: hand })
       .then((response) => {
         if (response.status === 400) {
-          setResult(response.error);
+          setError(response.error);
           console.error(response.error);
         }
-        if (response.status === 200) setResult(response.data);
+        if (response.status === 200) {
+          setResult(response.data ?? null);
+          setError(null);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -73,12 +77,50 @@ export const HandScorer = () => {
           <TileInput inputId="pair" onTileSelect={onPairChange} tile={pair} />
         </fieldset>
       </div>
-      <button onClick={onScoreHand} type="button">
+      <button
+        onClick={onScoreHand}
+        type="button"
+        style={{
+          background:
+            "linear-gradient(140deg,rgba(20, 52, 140, 1) 0%, rgba(117, 6, 145, 1) 100%)",
+          border: "4px solid grey",
+          borderRadius: "16px",
+          padding: "8px 16px",
+          margin: "4px",
+          fontSize: "2rem",
+        }}
+      >
         Score Hand
       </button>
       <fieldset>
-        <legend>Result:</legend>
-        {JSON.stringify(result)}
+        <legend>Score</legend>
+        {error ? (
+          `Error: ${JSON.stringify(error)}`
+        ) : result ? (
+          <>
+            <h2
+              style={{
+                boxShadow: "0px 0px 32px magenta",
+                backgroundColor: "black",
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: "8px",
+              }}
+            >
+              {result.score}
+            </h2>
+            <h3>Description:</h3>
+            <ul>
+              {result.explanation.map(({ name, description, slug }) => (
+                <li key={slug}>
+                  <b>{name}</b>: {description}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          "Input your hand, then click the 'Score Hand' button"
+        )}
       </fieldset>
     </>
   );
