@@ -5,7 +5,8 @@ import { isHonour, parseNumberValue } from "../../domain/tiles";
 import { meldTypes, numberedSuits, suits } from "../../domain/enums";
 import TileInput from "./TileInput";
 import type { MeldType } from "../../api";
-import styles from "./Inputs.module.scss";
+import inputStyles from "./Inputs.module.scss";
+import styles from "./MeldInput.module.scss";
 import Modal from "../UI/Modal/Modal";
 
 interface MeldInputProps {
@@ -47,13 +48,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
   return (
     <>
       {/* CURRENTLY SELECTED MELD */}
-      <fieldset
-        style={{
-          width: "80%",
-          position: "relative",
-          maxWidth: "500px",
-        }}
-      >
+      <fieldset className={styles.meldInput}>
         <legend>{name}</legend>
         <button
           type={"button"}
@@ -75,13 +70,13 @@ const MeldInput: React.FC<MeldInputProps> = ({
           onClose={onModalClose}
           closeButtonContents={"Close"}
         >
-          <fieldset className={styles.inputModal}>
+          <fieldset className={inputStyles.inputModal}>
             <legend className={"sr-only"}>Meld Input</legend>
 
-            <fieldset className={styles.radioPills}>
+            <fieldset className={inputStyles.radioPills}>
               <legend>Meld Type</legend>
               {meldTypes.map((typeOption) => (
-                <label className={styles.pill} key={typeOption}>
+                <label className={inputStyles.pill} key={typeOption}>
                   <input
                     type="radio"
                     value={typeOption}

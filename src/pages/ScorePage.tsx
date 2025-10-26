@@ -1,4 +1,3 @@
-import { ApiStatusCheck } from "../components/ApiStatusCheck";
 import { HandScorer } from "../components/HandScorer/HandScorer";
 
 const ScorePage: React.FC = () => {
@@ -9,7 +8,6 @@ const ScorePage: React.FC = () => {
         project{" "}
         <a href="https://github.com/json-bell/mahjong-scoring-app">here</a>
       </div>
-      <ApiStatusCheck />
       <HandScorer />
     </>
   );

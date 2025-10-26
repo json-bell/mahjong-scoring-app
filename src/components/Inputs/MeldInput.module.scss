@@ -1,0 +1,9 @@
+@use "@styles" as *;
+
+.meldInput {
+  width: 80%;
+  position: relative;
+  max-width: 500px;
+  background-color: $surface;
+  border-radius: 16px;
+}
