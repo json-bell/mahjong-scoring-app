@@ -1,6 +1,7 @@
-import type { MiscTileSlug, Tile } from "../domain/types";
-import MiscTileSvg from "./TileSvg/MiscTileSvg";
-import TileSvg from "./TileSvg/TileSvg";
+import type { MiscTileSlug, Tile } from "../../domain/types";
+import MiscTileSvg from "../TileSvg/MiscTileSvg";
+import TileSvg from "../TileSvg/TileSvg";
+import styles from "./MeldPreview.module.scss";
 
 export interface MeldPreviewProps {
   tiles?: { tile?: Tile; miscTileSlug?: MiscTileSlug }[];
@@ -11,22 +12,12 @@ const MeldPreview: React.FC<MeldPreviewProps> = ({ tiles }) => {
 
   const tileElements = tiles.map(({ tile, miscTileSlug }, index) => {
     const key = `tile-${index}`;
+
     if (tile) return <TileSvg key={key} tile={tile} />;
     if (miscTileSlug) return <MiscTileSvg key={key} slug={miscTileSlug} />;
     return <MiscTileSvg key={key} slug={"error"} />;
   });
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${tiles.length}, 1fr)`,
-        width: "100%",
-        gap: "8px",
-      }}
-    >
-      {tileElements}
-    </div>
-  );
+  return <div className={styles.tilePreview}>{tileElements}</div>;
 };
 
 export default MeldPreview;
