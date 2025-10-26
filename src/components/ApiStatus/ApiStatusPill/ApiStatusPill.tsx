@@ -25,14 +25,9 @@ const ApiStatusPill: React.FC = () => {
   }, [error, isReady]);
 
   const loadingEle: React.ReactNode = (() => {
-    if (error)
-      return (
-        <>
-          <span>Error - please refresh</span>
-        </>
-      );
+    if (error) return <span>{error}</span>;
 
-    if (isReady) return "Connected :)";
+    if (isReady) return <span>Connected :)</span>;
 
     return (
       <>
@@ -52,7 +47,7 @@ const ApiStatusPill: React.FC = () => {
       className={cx(
         styles.apiStatusPill,
         error && styles.error,
-        isReady && styles.isReady
+        isReady && styles.ready
       )}
       onClick={onRefresh}
     >

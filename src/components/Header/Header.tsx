@@ -3,9 +3,7 @@ import ApiStatusPill from "../ApiStatus/ApiStatusPill/ApiStatusPill";
 import styles from "./Header.module.scss";
 import Modal from "../UI/Modal/Modal";
 
-interface HeaderProps {}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   return (
     <>

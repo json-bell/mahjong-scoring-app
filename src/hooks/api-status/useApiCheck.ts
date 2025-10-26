@@ -3,13 +3,13 @@ import { getHealthCheck } from "../../api";
 
 interface ApiCheck {
   isReady: boolean;
-  error: string | null;
+  error: null | "Network Error" | "Error";
   onReload: () => void;
 }
 
 export function useApiCheck(/* checkIntervalMs = 20000 */): ApiCheck {
   const [isReady, setIsReady] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<null | "Network Error" | "Error">(null);
 
   const [forceReload, setForceReload] = useState<number>(0);
   const onReload = () => {
@@ -20,24 +20,16 @@ export function useApiCheck(/* checkIntervalMs = 20000 */): ApiCheck {
     const doHealthCheck = async () => {
       setError(null);
       setIsReady(false);
-      await new Promise((resolve) =>
-        setTimeout(() => {
-          resolve(true);
-        }, 200)
-      );
-
       const response = await getHealthCheck();
 
-      console.log(response.status);
-
-      if (response.code === "ERR_NETWORK") setError("Network Error");
+      if ("code" in response && response.code === "ERR_NETWORK")
+        setError("Network Error");
       else if (response.status === 200) setIsReady(true);
-      else if (response.status === 400) setError(response.message);
-      else setError("Unknown Error");
+      else setError("Error");
     };
 
     doHealthCheck().catch((err) => {
-      throw new Error(err);
+      console.error(err);
     });
   }, [forceReload]);
 
