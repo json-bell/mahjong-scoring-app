@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { MeldState, NumberedSuit, Tile } from "../../domain/types";
-import MeldPreview, { type MeldPreviewProps } from "../MeldPreview";
+import MeldPreview, { type MeldPreviewProps } from "../MeldPreview/MeldPreview";
 import { isHonour, parseNumberValue } from "../../domain/tiles";
 import { meldTypes, numberedSuits, suits } from "../../domain/enums";
 import TileInput from "./TileInput";

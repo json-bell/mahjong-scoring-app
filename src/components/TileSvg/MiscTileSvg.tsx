@@ -1,11 +1,10 @@
 import type React from "react";
 import { miscTileSvgs } from "../../assets/tiles";
 import type { MiscTileSlug } from "../../domain/types";
-import { InnerTileSvg } from "./TileSvg";
+import { InnerTileSvg, type InnerTileSvgProps } from "./TileSvg";
 
-interface MiscTileSvgProps {
+interface MiscTileSvgProps extends Omit<InnerTileSvgProps, "src"> {
   slug: MiscTileSlug;
-  altText?: string;
 }
 
 const defaultAltTexts: Record<MiscTileSlug, string> = {
@@ -14,10 +13,14 @@ const defaultAltTexts: Record<MiscTileSlug, string> = {
   hidden: "Hidden tile",
 };
 
-const MiscTileSvg: React.FC<MiscTileSvgProps> = ({ slug, altText }) => {
+const MiscTileSvg: React.FC<MiscTileSvgProps> = ({
+  slug,
+  alt = defaultAltTexts[slug],
+  className,
+}) => {
   const svgFile = miscTileSvgs[slug];
 
-  return <InnerTileSvg src={svgFile} alt={altText ?? defaultAltTexts[slug]} />;
+  return <InnerTileSvg src={svgFile} alt={alt} className={className} />;
 };
 
 export default MiscTileSvg;
