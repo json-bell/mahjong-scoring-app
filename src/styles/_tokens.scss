@@ -1,0 +1,51 @@
+@use "@styles/tokens/colours" as *;
+@use "@styles/tokens/shadows" as *;
+@use "sass:map";
+
+// Surface + background
+$background: palette(neutral, 800);
+$surface: palette(neutral, 600);
+
+// Main Colours
+$primary: palette(primary, 900);
+$secondary: palette(complimentary, 800);
+
+// Text
+$text-primary: rgba(palette(neutral, 50), 0.87);
+$text-secondary: rgba(palette(neutral, 50), 0.6);
+$text-muted: rgba(palette(neutral, 50), 0.38);
+
+// Feedback
+$success: palette(accent, green);
+$error: palette(accent, red);
+$info: palette(accent, blue);
+$warning: palette(accent, yellow);
+
+// Tile
+$tile-lit: palette(primary, 900);
+$tile-mid: palette(variants, tile-mid);
+$tile-shadow: palette(variants, tile-shadow);
+$tile-white: palette(variants, tile-white);
+
+$black: palette(neutral, 900);
+$white: palette(neutral, 50);
+
+$shadow-100: shadow(100);
+$shadow-200: shadow(200);
+$shadow-300: shadow(300);
+$shadow-400: shadow(400);
+
+// Buttons
+$button-transition: 0.3s ease;
+
+$button-primary-bg: palette(primary, 900);
+$button-primary-color: palette(neutral, 50);
+$button-primary-border: palette(primary, 400);
+$button-primary-hover-bg: palette(primary, 700);
+$button-primary-active-bg: palette(primary, 800);
+
+$button-complimentary-bg: palette(complimentary, 800);
+$button-complimentary-color: $text-primary;
+$button-complimentary-border: palette(complimentary, 400);
+$button-complimentary-hover-bg: palette(complimentary, 700);
+$button-complimentary-active-bg: palette(complimentary, 900);
