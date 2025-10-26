@@ -1,0 +1,46 @@
+@use "@styles" as *;
+
+.header {
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  top: 0;
+
+  min-height: 64px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+  margin: 0px 0px 24px;
+
+  display: grid;
+  grid-template-columns: auto 24px 1fr min-content;
+  grid-template-areas: "menu . logo apiStatus";
+  align-items: center;
+
+  background-color: $surface;
+  box-shadow: $shadow-400;
+
+  .menuButton {
+    grid-area: menu;
+    width: min-content;
+    height: min-content;
+    padding: 8px 16px;
+    background-color: $tile-lit;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 2px -2px 4px $tile-mid, 4px -4px 4px $tile-white;
+  }
+
+  h1 {
+    grid-area: logo;
+    color: $text-primary;
+    margin: 0;
+    display: inline-block;
+  }
+
+  .apiStatus {
+    grid-area: apiStatus;
+    text-align: center;
+    width: fit-content;
+  }
+}
