@@ -17,7 +17,6 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   useEffect(() => {
     if (!isOpen) return;
-    console.log("HIDING / ESCAPING");
 
     // Prevent background scroll
     document.body.style.overflow = "hidden";

@@ -1,0 +1,55 @@
+@use "@styles/tokens" as *;
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  padding: 8px 16px;
+  font-size: 1.5rem;
+  border: 2px solid transparent;
+  margin: 4px;
+  transition: background-color $button-transition, color $button-transition;
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $button-primary-bg;
+  color: $button-primary-color;
+  border-color: $button-primary-border;
+
+  &:hover {
+    background-color: $button-primary-hover-bg;
+  }
+  &:active {
+    background-color: $button-primary-active-bg;
+  }
+}
+
+@mixin button-complimentary {
+  @include button-base;
+  background-color: $button-complimentary-bg;
+  color: $button-complimentary-color;
+  border-color: $button-complimentary-border;
+
+  &:hover {
+    background-color: $button-complimentary-hover-bg;
+  }
+  &:active {
+    background-color: $button-complimentary-active-bg;
+  }
+}
+
+@mixin button-outline($color: $button-primary-color) {
+  @include button-base;
+  background-color: transparent;
+  color: $color;
+  border: 1px solid $color;
+
+  &:hover {
+    background-color: rgba($color, 0.1);
+  }
+  &:active {
+    background-color: rgba($color, 0.2);
+  }
+}

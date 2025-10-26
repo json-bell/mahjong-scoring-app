@@ -21,6 +21,7 @@ const MeldPreview: React.FC<MeldPreviewProps> = ({ tiles }) => {
         display: "grid",
         gridTemplateColumns: `repeat(${tiles.length}, 1fr)`,
         width: "100%",
+        gap: "8px",
       }}
     >
       {tileElements}

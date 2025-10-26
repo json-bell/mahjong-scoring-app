@@ -1,0 +1,57 @@
+@use "@styles" as *;
+
+.apiStatusPill {
+  border-radius: 56px;
+  background-color: $warning;
+  position: relative;
+  height: 32px;
+  padding: 8px 16px;
+  border: none;
+  width: max-content;
+
+  color: black;
+  font-weight: 500;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &.error {
+    background-color: $error;
+  }
+
+  &.ready {
+    background-color: $success;
+    color: white;
+  }
+}
+
+$infoGap: 16px;
+
+.info {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 4px;
+  border-radius: 8px;
+  width: 100%;
+  top: 100%;
+  z-index: 1;
+  margin-top: $infoGap;
+  left: 0;
+  background-color: $warning;
+  filter: $shadow-400;
+}
+
+.info:after {
+  content: "";
+  position: absolute;
+  top: -$infoGap;
+  left: calc(50% - $infoGap);
+  height: $infoGap;
+  width: calc(2 * $infoGap);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  background-color: $warning;
+  z-index: 10;
+}

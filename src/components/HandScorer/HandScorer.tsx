@@ -9,6 +9,7 @@ import useMahjongHand from "../../hooks/mahjong/useMahjongHands";
 import TileInput from "../Inputs/TileInput";
 import type { Tile } from "../../domain/types";
 import MeldInput from "../Inputs/MeldInput";
+import styles from "./HandScorer.module.scss";
 
 export const HandScorer = () => {
   const [result, setResult] = useState<HandScoreExplanation | null>(null);
@@ -49,14 +50,7 @@ export const HandScorer = () => {
 
   return (
     <>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className={styles.inputList}>
         {melds.map((meld, meldIndex) => {
           const id = `meld-input-${meldIndex}`;
 
@@ -80,15 +74,7 @@ export const HandScorer = () => {
       <button
         onClick={onScoreHand}
         type="button"
-        style={{
-          background:
-            "linear-gradient(140deg,rgba(20, 52, 140, 1) 0%, rgba(117, 6, 145, 1) 100%)",
-          border: "4px solid grey",
-          borderRadius: "16px",
-          padding: "8px 16px",
-          margin: "4px",
-          fontSize: "2rem",
-        }}
+        className={styles.scoreButton}
       >
         Score Hand
       </button>

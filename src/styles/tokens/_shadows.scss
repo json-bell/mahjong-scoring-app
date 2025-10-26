@@ -1,0 +1,15 @@
+@use "colours" as *;
+@use "sass:map";
+
+$shadow-colour: palette(neutral, 900);
+
+$shadows: (
+  100: 0 1px 2px rgba($shadow-colour, 0.2),
+  200: 0 2px 6px rgba($shadow-colour, 0.4),
+  300: 0 4px 12px rgba($shadow-colour, 0.6),
+  400: 0 8px 24px rgba($shadow-colour, 0.8),
+);
+
+@function shadow($level: 100) {
+  @return map.get($shadows, $level);
+}

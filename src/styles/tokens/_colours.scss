@@ -1,0 +1,71 @@
+/* Used https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
+with primary colour #005F00 (from Tile SVGs),
+
+and generally trying to follow MUI's guidelines on colour definitions
+*/
+
+@use "sass:map";
+
+$colors: (
+  primary: (
+    900: #005f00,
+    // ^ primary
+    800: #227e18,
+    700: #2f8f23,
+    600: #3ba02e,
+    500: #45af37,
+    400: #62bb57,
+    300: #7ec775,
+    200: #a4d69d,
+    100: #c8e6c3,
+    50: #e8f5e7,
+  ),
+  complimentary: (
+    900: #450050,
+    800: #5f005f,
+    // ^ secondary
+    700: #6e0367,
+    600: #7d0b6e,
+    500: #880f73,
+    400: #9a3685,
+    300: #ac5899,
+    200: #c586b5,
+    100: #dcb6d2,
+    50: #f1e2ed,
+  ),
+  neutral: (
+    900: #0d0d0d,
+    800: #121212,
+    700: #1a1a1a,
+    600: #2a2a2a,
+    500: #3a3a3a,
+    400: #555555,
+    300: #777777,
+    200: #a0a0a0,
+    100: #ededed,
+    50: #ffffff,
+  ),
+  accent: (
+    green: #038249,
+    red: #bf3718,
+    blue: #2a3b92,
+    yellow: #f2c94c,
+  ),
+  variants: (
+    tile-mid: #024c02,
+    tile-shadow: #053d05,
+    tile-white: #cddacd,
+  ),
+);
+
+@function palette($family, $shade) {
+  $family-map: map.get($colors, $family);
+  @if $family-map == null {
+    @error "Family `#{$family}` not found in $colors map.";
+  }
+  $value: map.get($family-map, $shade);
+  @if $value == null {
+    @error "Shade `#{$shade}` not found in `#{$family}` map.";
+  }
+  @return $value;
+}

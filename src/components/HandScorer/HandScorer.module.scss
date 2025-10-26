@@ -1,0 +1,14 @@
+@use "@styles" as *;
+
+.inputList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoreButton {
+  @include button-complimentary;
+
+  margin: 8px;
+}
