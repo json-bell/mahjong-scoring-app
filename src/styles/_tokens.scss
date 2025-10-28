@@ -5,6 +5,7 @@
 // Surface + background
 $background: palette(neutral, 800);
 $surface: palette(neutral, 600);
+$surface-lit: palette(neutral, 500);
 $border: palette(neutral, 200);
 
 // Main Colours
@@ -15,6 +16,8 @@ $secondary: palette(complimentary, 800);
 $text-primary: rgba(palette(neutral, 50), 0.87);
 $text-secondary: rgba(palette(neutral, 50), 0.6);
 $text-muted: rgba(palette(neutral, 50), 0.38);
+
+$text-dark: palette(neutral, 900);
 
 // Feedback
 $success: palette(accent, green);
@@ -50,3 +53,31 @@ $button-complimentary-color: $text-primary;
 $button-complimentary-border: palette(complimentary, 400);
 $button-complimentary-hover-bg: palette(complimentary, 700);
 $button-complimentary-active-bg: palette(complimentary, 900);
+
+// Tabs
+
+$tab-inactive-bg: transparent;
+$tab-inactive-border: palette(primary, 900);
+
+$tab-hover-bg: rgba(palette(primary, 800), 0.4);
+$tab-hover-border: palette(primary, 600);
+
+$tab-active-bg: palette(complimentary, 900);
+$tab-active-border: palette(complimentary, 400);
+
+$tab-active-hover-bg: $tab-active-bg;
+$tab-active-hover-border: palette(complimentary, 300);
+
+// Radio
+
+$radio-inactive-bg: transparent;
+$radio-inactive-border: palette(primary, 900);
+
+$radio-hover-bg: rgba(palette(primary, 800), 0.4);
+$radio-hover-border: palette(primary, 600);
+
+$radio-active-bg: palette(complimentary, 900);
+$radio-active-border: palette(complimentary, 400);
+
+$radio-active-hover-bg: $radio-active-bg;
+$radio-active-hover-border: palette(complimentary, 300);

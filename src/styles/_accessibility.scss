@@ -1,0 +1,8 @@
+@use "@styles/tokens/colours" as *;
+
+@mixin focus-outline($inner: #00bfff) {
+  outline: 2px solid $inner;
+  outline-offset: 4px;
+  // box-shadow: 0 0 0 3px rgba($outer, 0.6);
+  // border-radius: 4px;
+}

@@ -1,55 +1,6 @@
 @use "@styles/mixins" as *;
 @use "@styles/tokens" as *;
 
-.inputModal {
-  position: relative;
-  background-color: grey;
-  border: 3px solid white;
-  min-height: 320px;
-  max-height: 90%;
-}
-
-.radioPills {
-  border: 0;
-  padding: 0;
-
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  gap: 8px;
-
-  label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 16px;
-    border-radius: 32px;
-    border: 1px solid #d1d5db;
-    background: #f9fafb;
-    color: black;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
-
-    input[type="radio"] {
-      @include sr-only;
-    }
-
-    &:hover {
-      background: #f3f4f6;
-    }
-
-    &:has(input:focus-visible) {
-      outline: 2px solid #2563eb;
-      outline-offset: 2px;
-    }
-
-    &:has(input:checked) {
-      background: #2563eb;
-      color: white;
-    }
-  }
-}
-
 .radioTiles {
   border: 0;
   padding: 0;
