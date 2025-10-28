@@ -7,3 +7,17 @@
   background-color: $surface;
   border-radius: 16px;
 }
+
+.tabLabel {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: $text-secondary;
+  padding: 8px;
+
+  :first-child {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: $text-primary;
+  }
+}

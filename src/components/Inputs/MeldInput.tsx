@@ -11,6 +11,7 @@ import TabbedContent, {
 } from "../TabbedContent/TabbedContent";
 import RadioList, { type RadioType } from "../RadioList/RadioList";
 import type { MeldType, Suit } from "../../api";
+import { capitalise } from "../../utils/text-utils";
 
 interface MeldInputProps {
   meldValue: MeldState;
@@ -68,7 +69,12 @@ const MeldInput: React.FC<MeldInputProps> = ({
     [
       {
         tabSlug: "meldType",
-        tabLabel: "Type",
+        tabLabel: (
+          <div className={styles.tabLabel}>
+            <span>Type</span>
+            <span>{capitalise(meldValue.type) ?? "-"}</span>
+          </div>
+        ),
         children: (
           <RadioList
             id={`meld-${inputId}-type`}
@@ -84,7 +90,12 @@ const MeldInput: React.FC<MeldInputProps> = ({
       },
       {
         tabSlug: "suit",
-        tabLabel: "Suit",
+        tabLabel: (
+          <div className={styles.tabLabel}>
+            <span>Suit</span>
+            <span>{capitalise(viewedSuit) ?? "-"}</span>
+          </div>
+        ),
         children: (
           <RadioList
             id={`meld-${inputId}-suit`}
@@ -100,7 +111,12 @@ const MeldInput: React.FC<MeldInputProps> = ({
       },
       {
         tabSlug: "tileValue",
-        tabLabel: "Tile",
+        tabLabel: (
+          <div className={styles.tabLabel}>
+            <span>Tile</span>
+            <span>{capitalise(meldValue.tile?.value) ?? "-"}</span>
+          </div>
+        ),
         children: (
           <TileInput
             inputId={`meld-input-tile-${inputId}`}
