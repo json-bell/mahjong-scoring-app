@@ -21,7 +21,15 @@ const Header: React.FC = () => {
           onClose={() => {
             setIsMenuOpen(false);
           }}
-          closeButtonContents={"Close Menu"}
+          belowButtons={[
+            {
+              contents: "Close Menu",
+              onClick: () => {
+                setIsMenuOpen(false);
+              },
+              id: "Close",
+            },
+          ]}
         >
           <div
             style={{

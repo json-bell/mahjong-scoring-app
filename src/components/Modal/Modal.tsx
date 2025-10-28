@@ -6,14 +6,18 @@ interface ModalProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  closeButtonContents?: React.ReactNode;
+  belowButtons?: {
+    contents: React.ReactNode;
+    onClick: () => void;
+    id: string;
+  }[];
 }
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
-  closeButtonContents,
+  belowButtons,
 }) => {
   useEffect(() => {
     if (!isOpen) return;
@@ -45,15 +49,20 @@ const Modal: React.FC<ModalProps> = ({
         <div className={styles.modal} role="dialog">
           {children}
         </div>
-        {closeButtonContents && (
-          <button
-            onClick={onClose}
-            className={styles.closeButton}
-            type="button"
-          >
-            {closeButtonContents}
-          </button>
-        )}
+        <div className={styles.modalButtons}>
+          {belowButtons?.map(({ contents, onClick, id }) => {
+            return (
+              <button
+                key={id}
+                onClick={onClick}
+                className={styles.closeButton}
+                type="button"
+              >
+                {contents}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </>,
     modalRoot

@@ -42,6 +42,12 @@ const MeldInput: React.FC<MeldInputProps> = ({
     setStep(null);
   };
 
+  const onInputClear = () => {
+    onMeldChange({ tile: null, type: null });
+    setStep(null);
+    setAutoContinue(true);
+  };
+
   const previewedMeld = getPreviewTiles(
     isPair ? { tile: meldValue.tile, type: "pair" } : meldValue
   );
@@ -128,7 +134,10 @@ const MeldInput: React.FC<MeldInputProps> = ({
         <Modal
           isOpen={isModalOpen}
           onClose={onModalClose}
-          closeButtonContents={"Close"}
+          belowButtons={[
+            { contents: "Save", onClick: onModalClose, id: "Save" },
+            { contents: "Clear", onClick: onInputClear, id: "Clear" },
+          ]}
         >
           {step && (
             <TabbedContent
