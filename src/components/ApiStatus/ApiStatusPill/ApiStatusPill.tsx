@@ -27,7 +27,7 @@ const ApiStatusPill: React.FC = () => {
   const loadingEle: React.ReactNode = (() => {
     if (error) return <span>{error}</span>;
 
-    // if (isReady) return <span>API Connected :)</span>;
+    if (isReady) return <span>API Connected :)</span>;
 
     return (
       <>
