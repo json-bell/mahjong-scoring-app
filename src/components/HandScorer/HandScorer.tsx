@@ -6,7 +6,6 @@ import {
   type MeldSchemaInput,
 } from "../../api";
 import useMahjongHand from "../../hooks/mahjong/useMahjongHands";
-import TileInput from "../Inputs/TileInput";
 import type { Tile } from "../../domain/types";
 import MeldInput from "../Inputs/MeldInput";
 import styles from "./HandScorer.module.scss";
@@ -59,17 +58,22 @@ export const HandScorer = () => {
               key={id}
               inputId={id}
               meldValue={meldValue}
-              name={`Meld ${meldIndex}`}
+              legend={`Meld ${meldIndex}`}
               onMeldChange={(newPartialMeld) =>
                 onMeldChange(meldIndex, newPartialMeld)
               }
             />
           );
         })}
-        <fieldset>
-          <legend>Pair</legend>
-          <TileInput inputId="pair" onTileSelect={onPairChange} tile={pair} />
-        </fieldset>
+        <MeldInput
+          inputId="input-pair"
+          meldValue={{ tile: pair, type: null }}
+          onMeldChange={({ tile: newPair = null }) => {
+            onPairChange(newPair);
+          }}
+          legend="Pair"
+          isPair={true}
+        />
       </div>
       <button
         onClick={onScoreHand}

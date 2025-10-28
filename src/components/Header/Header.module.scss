@@ -17,7 +17,14 @@
   grid-template-areas: "menu . logo apiStatus";
   align-items: center;
 
-  background-color: $surface;
+  @media screen and (max-width: 480px) {
+    grid-template-columns: auto 24px 1fr;
+    grid-auto-rows: auto;
+    grid-template-areas: "menu . logo" ". . apiStatus";
+    row-gap: 8px;
+  }
+
+  // background-color: $surface;
   box-shadow: $shadow-400;
 
   .menuButton {
@@ -40,7 +47,9 @@
 
   .apiStatus {
     grid-area: apiStatus;
-    text-align: center;
-    width: fit-content;
+    place-self: end;
+
+    width: max-content;
+    align-items: center;
   }
 }

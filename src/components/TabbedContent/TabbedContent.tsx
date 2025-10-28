@@ -1,6 +1,6 @@
 import styles from "./TabbedContent.module.scss";
 
-interface TabbedContentProps<T extends string = string> {
+export interface TabbedContentProps<T extends string = string> {
   tabs: { tabSlug: T; tabLabel: React.ReactNode; children: React.ReactNode }[];
   activeTab: T;
   onTabSelect: (newTab: T) => void;

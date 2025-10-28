@@ -4,4 +4,9 @@
   gap: 8px;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
+
+  &.pairPreview {
+    width: 66%;
+    margin: auto;
+  }
 }

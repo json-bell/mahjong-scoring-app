@@ -1,27 +1,32 @@
 import { useState } from "react";
-import type { MeldState, NumberedSuit } from "../../domain/types";
+import type { MeldState, NumberedSuit, Tile } from "../../domain/types";
 import MeldPreview, { type MeldPreviewProps } from "../MeldPreview/MeldPreview";
 import { isHonour, parseNumberValue } from "../../domain/tiles";
 import { meldTypes, suits } from "../../domain/enums";
 import TileInput from "./TileInput";
 import styles from "./MeldInput.module.scss";
 import Modal from "../Modal/Modal";
-import TabbedContent from "../TabbedContent/TabbedContent";
+import TabbedContent, {
+  type TabbedContentProps,
+} from "../TabbedContent/TabbedContent";
 import RadioList, { type RadioType } from "../RadioList/RadioList";
 import type { MeldType, Suit } from "../../api";
+import { capitalise } from "../../utils/text-utils";
 
 interface MeldInputProps {
   meldValue: MeldState;
   onMeldChange: (newPartialMeld: Partial<MeldState>) => void;
-  name: string;
+  legend: string;
   inputId: string;
+  isPair?: boolean;
 }
 
 const MeldInput: React.FC<MeldInputProps> = ({
   meldValue,
   onMeldChange,
   inputId,
-  name,
+  legend,
+  isPair = false,
 }) => {
   const [step, setStep] = useState<"meldType" | "suit" | "tileValue" | null>(
     null
@@ -31,14 +36,22 @@ const MeldInput: React.FC<MeldInputProps> = ({
 
   const isModalOpen = !!step;
   const onModalOpen = () => {
-    setStep("meldType");
+    setStep(isPair ? "suit" : "meldType");
     setAutoContinue(true);
   };
   const onModalClose = () => {
     setStep(null);
   };
 
-  const previewedMeld = getPreviewTiles(meldValue);
+  const onInputClear = () => {
+    onMeldChange({ tile: null, type: null });
+    setStep(null);
+    setAutoContinue(true);
+  };
+
+  const previewedMeld = getPreviewTiles(
+    isPair ? { tile: meldValue.tile, type: "pair" } : meldValue
+  );
 
   const meldTypeRadios = meldTypes.map(
     (option): RadioType<MeldType> => ({
@@ -50,10 +63,79 @@ const MeldInput: React.FC<MeldInputProps> = ({
     (option): RadioType<Suit> => ({ label: option, value: option })
   );
 
+  const inputTabs: TabbedContentProps<
+    "meldType" | "suit" | "tileValue"
+  >["tabs"] = (
+    [
+      {
+        tabSlug: "meldType",
+        tabLabel: (
+          <div className={styles.tabLabel}>
+            <span>Type</span>
+            <span>{capitalise(meldValue.type) ?? "-"}</span>
+          </div>
+        ),
+        children: (
+          <RadioList
+            id={`meld-${inputId}-type`}
+            onChange={(newType) => {
+              onMeldChange({ type: newType });
+              if (autoContinue) setStep("suit");
+            }}
+            radios={meldTypeRadios}
+            selected={meldValue.type}
+            legend="Meld Type"
+          />
+        ),
+      },
+      {
+        tabSlug: "suit",
+        tabLabel: (
+          <div className={styles.tabLabel}>
+            <span>Suit</span>
+            <span>{capitalise(viewedSuit) ?? "-"}</span>
+          </div>
+        ),
+        children: (
+          <RadioList
+            id={`meld-${inputId}-suit`}
+            onChange={(newSuit) => {
+              setViewedSuit(newSuit);
+              if (autoContinue) setStep("tileValue");
+            }}
+            radios={suitRadios}
+            selected={viewedSuit}
+            legend="Suit"
+          />
+        ),
+      },
+      {
+        tabSlug: "tileValue",
+        tabLabel: (
+          <div className={styles.tabLabel}>
+            <span>Tile</span>
+            <span>{capitalise(meldValue.tile?.value) ?? "-"}</span>
+          </div>
+        ),
+        children: (
+          <TileInput
+            inputId={`meld-input-tile-${inputId}`}
+            tile={meldValue.tile}
+            suitOptions={viewedSuit ? [viewedSuit] : suits}
+            onTileSelect={(newTile) => {
+              onMeldChange({ tile: newTile });
+              if (autoContinue) onModalClose();
+            }}
+          />
+        ),
+      },
+    ] as const
+  ).filter(({ tabSlug }) => !(isPair && tabSlug === "meldType"));
+
   return (
     <>
       <fieldset className={styles.meldInput}>
-        <legend>{name}</legend>
+        <legend>{legend}</legend>
         <button
           type={"button"}
           style={{
@@ -68,7 +150,10 @@ const MeldInput: React.FC<MeldInputProps> = ({
         <Modal
           isOpen={isModalOpen}
           onClose={onModalClose}
-          closeButtonContents={"Close"}
+          belowButtons={[
+            { contents: "Save", onClick: onModalClose, id: "Save" },
+            { contents: "Clear", onClick: onInputClear, id: "Clear" },
+          ]}
         >
           {step && (
             <TabbedContent
@@ -78,55 +163,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
               }}
               activeTab={step}
               radioId={`meld-${inputId}-step-radio`}
-              tabs={[
-                {
-                  tabSlug: "meldType",
-                  tabLabel: "Meld Type",
-                  children: (
-                    <RadioList
-                      id={`meld-${inputId}-type`}
-                      onChange={(newType) => {
-                        onMeldChange({ type: newType });
-                        if (autoContinue) setStep("suit");
-                      }}
-                      radios={meldTypeRadios}
-                      selected={meldValue.type}
-                      legend="Meld Type"
-                    />
-                  ),
-                },
-                {
-                  tabSlug: "suit",
-                  tabLabel: "Suit",
-                  children: (
-                    <RadioList
-                      id={`meld-${inputId}-suit`}
-                      onChange={(newSuit) => {
-                        setViewedSuit(newSuit);
-                        if (autoContinue) setStep("tileValue");
-                      }}
-                      radios={suitRadios}
-                      selected={viewedSuit}
-                      legend="Suit"
-                    />
-                  ),
-                },
-                {
-                  tabSlug: "tileValue",
-                  tabLabel: "Tile",
-                  children: (
-                    <TileInput
-                      inputId={`meld-input-tile-${inputId}`}
-                      tile={meldValue.tile}
-                      suitOptions={viewedSuit ? [viewedSuit] : suits}
-                      onTileSelect={(newTile) => {
-                        onMeldChange({ tile: newTile });
-                        if (autoContinue) onModalClose();
-                      }}
-                    />
-                  ),
-                },
-              ]}
+              tabs={inputTabs}
             />
           )}
         </Modal>
@@ -137,14 +174,20 @@ const MeldInput: React.FC<MeldInputProps> = ({
 
 export default MeldInput;
 
+type PreviewedTileParams = MeldState | { type: "pair"; tile: Tile | null };
+
+const defaultTiles: MeldPreviewProps["tiles"] = [1, 2, 3].map(() => ({
+  miscTileSlug: "any",
+}));
+
 const getPreviewTiles = ({
   tile,
   type,
-}: MeldState): MeldPreviewProps["tiles"] => {
-  const defaultTiles: MeldPreviewProps["tiles"] = [1, 2, 3].map(() => ({
-    miscTileSlug: "any",
-  }));
-
+}: PreviewedTileParams): MeldPreviewProps["tiles"] => {
+  if (type === "pair") {
+    if (!tile) return defaultTiles.slice(0, 2);
+    return [{ tile }, { tile }];
+  }
   if (!type || !tile) return defaultTiles;
 
   if (type === "pong") return [{ tile }, { tile }, { tile }];
