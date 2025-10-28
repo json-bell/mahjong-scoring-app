@@ -16,6 +16,11 @@ const Header: React.FC = () => {
         >
           Menu
         </button>
+        <h1>MAHJONG</h1>
+        <div className={styles.apiStatus}>
+          <ApiStatusPill />
+        </div>
+
         <Modal
           isOpen={isMenuOpen}
           onClose={() => {
@@ -43,12 +48,6 @@ const Header: React.FC = () => {
             <h3>MENU</h3>
           </div>
         </Modal>
-        <h1>MAHJONG</h1>
-
-        <div className={styles.apiStatus}>
-          <div>API Status:</div>
-          <ApiStatusPill />
-        </div>
       </header>
     </>
   );
