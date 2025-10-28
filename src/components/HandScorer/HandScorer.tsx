@@ -51,14 +51,14 @@ export const HandScorer = () => {
   return (
     <>
       <div className={styles.inputList}>
-        {melds.map((meld, meldIndex) => {
+        {melds.map((meldValue, meldIndex) => {
           const id = `meld-input-${meldIndex}`;
 
           return (
             <MeldInput
               key={id}
               inputId={id}
-              meld={meld}
+              meldValue={meldValue}
               name={`Meld ${meldIndex}`}
               onMeldChange={(newPartialMeld) =>
                 onMeldChange(meldIndex, newPartialMeld)

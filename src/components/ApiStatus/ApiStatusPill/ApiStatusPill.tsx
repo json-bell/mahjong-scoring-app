@@ -1,7 +1,7 @@
 import { useApiCheck } from "../../../hooks/api-status/useApiCheck";
 import { cx } from "../../../utils/classNames";
 import styles from "./ApiStatusPill.module.scss";
-import LoadingSpinner from "../../UI/Loading/LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import { useEffect, useState } from "react";
 
 const ApiStatusPill: React.FC = () => {

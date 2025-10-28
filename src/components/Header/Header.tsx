@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ApiStatusPill from "../ApiStatus/ApiStatusPill/ApiStatusPill";
 import styles from "./Header.module.scss";
-import Modal from "../UI/Modal/Modal";
+import Modal from "../Modal/Modal";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
