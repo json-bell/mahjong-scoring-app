@@ -1,53 +1,57 @@
 import { useState } from "react";
-import type { MeldState, NumberedSuit, Tile } from "../../domain/types";
+import type { MeldState, NumberedSuit } from "../../domain/types";
 import MeldPreview, { type MeldPreviewProps } from "../MeldPreview/MeldPreview";
 import { isHonour, parseNumberValue } from "../../domain/tiles";
-import { meldTypes, numberedSuits, suits } from "../../domain/enums";
+import { meldTypes, suits } from "../../domain/enums";
 import TileInput from "./TileInput";
-import type { MeldType } from "../../api";
-import inputStyles from "./Inputs.module.scss";
 import styles from "./MeldInput.module.scss";
-import Modal from "../UI/Modal/Modal";
+import Modal from "../Modal/Modal";
+import TabbedContent from "../TabbedContent/TabbedContent";
+import RadioList, { type RadioType } from "../RadioList/RadioList";
+import type { MeldType, Suit } from "../../api";
 
 interface MeldInputProps {
-  meld: MeldState;
+  meldValue: MeldState;
   onMeldChange: (newPartialMeld: Partial<MeldState>) => void;
   name: string;
   inputId: string;
 }
 
 const MeldInput: React.FC<MeldInputProps> = ({
-  meld,
+  meldValue,
   onMeldChange,
   inputId,
   name,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [step, setStep] = useState<"meldType" | "suit" | "tileValue" | null>(
+    null
+  );
+  const [autoContinue, setAutoContinue] = useState(true);
+  const [viewedSuit, setViewedSuit] = useState<Suit | null>(null);
+
+  const isModalOpen = !!step;
+  const onModalOpen = () => {
+    setStep("meldType");
+    setAutoContinue(true);
+  };
   const onModalClose = () => {
-    setIsModalOpen(false);
+    setStep(null);
   };
 
-  // resets when closing the input
-  const [selectedType, setSelectedType] = useState<MeldType | null>(null);
-  const validSuits = selectedType === "chow" ? numberedSuits : suits;
-  const [selectedTile, setSelectedTile] = useState<Tile | null>(null);
+  const previewedMeld = getPreviewTiles(meldValue);
 
-  const onAttemptedSubmit = ({ type, tile }: MeldState) => {
-    if (!type || !tile) return;
-
-    onMeldChange({ type, tile });
-    onModalClose();
-  };
-  const onClearInternal = () => {
-    setSelectedTile(null);
-    setSelectedType(null);
-  };
-
-  const previewedMeld = getPreviewTiles(meld);
+  const meldTypeRadios = meldTypes.map(
+    (option): RadioType<MeldType> => ({
+      label: option,
+      value: option,
+    })
+  );
+  const suitRadios = suits.map(
+    (option): RadioType<Suit> => ({ label: option, value: option })
+  );
 
   return (
     <>
-      {/* CURRENTLY SELECTED MELD */}
       <fieldset className={styles.meldInput}>
         <legend>{name}</legend>
         <button
@@ -57,11 +61,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
             border: "none",
             width: "100%",
           }}
-          onClick={() => {
-            // reset when opening
-            onClearInternal();
-            setIsModalOpen(true);
-          }}
+          onClick={onModalOpen}
         >
           <MeldPreview tiles={previewedMeld} />
         </button>
@@ -70,43 +70,65 @@ const MeldInput: React.FC<MeldInputProps> = ({
           onClose={onModalClose}
           closeButtonContents={"Close"}
         >
-          <fieldset className={inputStyles.inputModal}>
-            <legend className={"sr-only"}>Meld Input</legend>
-
-            <fieldset className={inputStyles.radioPills}>
-              <legend>Meld Type</legend>
-              {meldTypes.map((typeOption) => (
-                <label className={inputStyles.pill} key={typeOption}>
-                  <input
-                    type="radio"
-                    value={typeOption}
-                    checked={selectedType === typeOption}
-                    name={`meld-${inputId}-type`}
-                    onChange={() => {
-                      setSelectedType(typeOption);
-                      onAttemptedSubmit({
-                        tile: selectedTile,
-                        type: typeOption,
-                      });
-                    }}
-                  />
-                  {typeOption}
-                </label>
-              ))}
-            </fieldset>
-            <TileInput
-              inputId={`meld-input-tile-${inputId}`}
-              tile={selectedTile}
-              suitOptions={validSuits}
-              onTileSelect={(newTile) => {
-                setSelectedTile(newTile);
-                onAttemptedSubmit({
-                  tile: newTile,
-                  type: selectedType,
-                });
+          {step && (
+            <TabbedContent
+              onTabSelect={(newTab) => {
+                setStep(newTab);
+                setAutoContinue(false);
               }}
+              activeTab={step}
+              radioId={`meld-${inputId}-step-radio`}
+              tabs={[
+                {
+                  tabSlug: "meldType",
+                  tabLabel: "Meld Type",
+                  children: (
+                    <RadioList
+                      id={`meld-${inputId}-type`}
+                      onChange={(newType) => {
+                        onMeldChange({ type: newType });
+                        if (autoContinue) setStep("suit");
+                      }}
+                      radios={meldTypeRadios}
+                      selected={meldValue.type}
+                      legend="Meld Type"
+                    />
+                  ),
+                },
+                {
+                  tabSlug: "suit",
+                  tabLabel: "Suit",
+                  children: (
+                    <RadioList
+                      id={`meld-${inputId}-suit`}
+                      onChange={(newSuit) => {
+                        setViewedSuit(newSuit);
+                        if (autoContinue) setStep("tileValue");
+                      }}
+                      radios={suitRadios}
+                      selected={viewedSuit}
+                      legend="Suit"
+                    />
+                  ),
+                },
+                {
+                  tabSlug: "tileValue",
+                  tabLabel: "Tile",
+                  children: (
+                    <TileInput
+                      inputId={`meld-input-tile-${inputId}`}
+                      tile={meldValue.tile}
+                      suitOptions={viewedSuit ? [viewedSuit] : suits}
+                      onTileSelect={(newTile) => {
+                        onMeldChange({ tile: newTile });
+                        if (autoContinue) onModalClose();
+                      }}
+                    />
+                  ),
+                },
+              ]}
             />
-          </fieldset>
+          )}
         </Modal>
       </fieldset>
     </>

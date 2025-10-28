@@ -42,18 +42,18 @@ const Modal: React.FC<ModalProps> = ({
     <>
       <div className={styles.modalContainer}>
         <div className={styles.modalShadow} onClick={onClose} />
-        <div className={styles.modal}>
+        <div className={styles.modal} role="dialog">
           {children}
-          {closeButtonContents && (
-            <button
-              onClick={onClose}
-              className={styles.closeButton}
-              type="button"
-            >
-              {closeButtonContents}
-            </button>
-          )}
         </div>
+        {closeButtonContents && (
+          <button
+            onClick={onClose}
+            className={styles.closeButton}
+            type="button"
+          >
+            {closeButtonContents}
+          </button>
+        )}
       </div>
     </>,
     modalRoot

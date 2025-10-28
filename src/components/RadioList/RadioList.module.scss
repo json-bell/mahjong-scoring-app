@@ -1,0 +1,53 @@
+@use "@styles" as *;
+
+.inputModal {
+  position: relative;
+  background-color: grey;
+  border: 3px solid white;
+  min-height: 320px;
+  max-height: 90%;
+}
+
+.radioPills {
+  border: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 8px 16px;
+    border-radius: 32px;
+    border: 1px solid $radio-inactive-border;
+    background: $surface-lit;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    input[type="radio"] {
+      @include sr-only;
+    }
+
+    &:has(input:focus-visible) {
+      @include focus-outline();
+    }
+    &:has(input:checked) {
+      border-color: $tab-active-border;
+      background-color: $tab-active-bg;
+    }
+    &:hover {
+      background-color: $tab-hover-bg;
+      border-color: $tab-hover-border;
+    }
+    &:hover:has(input:checked) {
+      background-color: $tab-active-hover-bg;
+      border-color: $tab-active-hover-border;
+    }
+  }
+}

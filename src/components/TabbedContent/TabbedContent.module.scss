@@ -1,0 +1,41 @@
+@use "@styles" as *;
+
+.tabbedContent {
+  .tabSelector {
+    background-color: $surface-lit;
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    padding: 0;
+    margin: 0;
+    border: none;
+
+    label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 4px solid $tab-inactive-border;
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition: 0.3s ease-out border-color, 0.3s ease-out background-color;
+      cursor: pointer;
+      padding: 12px;
+
+      &:has(input:focus-visible) {
+        @include focus-outline();
+      }
+      &:has(input:checked) {
+        border-color: $tab-active-border;
+        background-color: $tab-active-bg;
+      }
+      &:hover {
+        background-color: $tab-hover-bg;
+        border-color: $tab-hover-border;
+      }
+      &:hover:has(input:checked) {
+        background-color: $tab-active-hover-bg;
+        border-color: $tab-active-hover-border;
+      }
+    }
+  }
+}
