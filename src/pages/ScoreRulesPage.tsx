@@ -1,5 +1,7 @@
+import RuleList from "../components/RuleList/RuleList";
+
 const ScoreRulesPage: React.FC = () => {
-  return <>Test</>;
+  return <RuleList />;
 };
 
 export default ScoreRulesPage;

@@ -5,7 +5,7 @@ import TileSvg from "../TileSvg/TileSvg";
 import styles from "./MeldPreview.module.scss";
 
 export interface MeldPreviewProps {
-  tiles?: { tile?: Tile; miscTileSlug?: MiscTileSlug }[];
+  tiles?: { tile?: Tile; miscTileSlug?: MiscTileSlug; caption?: string }[];
 }
 
 const MeldPreview: React.FC<MeldPreviewProps> = ({ tiles }) => {
@@ -20,9 +20,30 @@ const MeldPreview: React.FC<MeldPreviewProps> = ({ tiles }) => {
     if (miscTileSlug) return <MiscTileSvg key={key} slug={miscTileSlug} />;
     return <MiscTileSvg key={key} slug={"error"} />;
   });
+
   return (
     <div className={cx(styles.tilePreview, isPair && styles.pairPreview)}>
-      {tileElements}
+      {tileElements.map((ele, index) => {
+        const { caption } = tiles[index];
+        if (!caption) return ele;
+
+        return (
+          <div key={`${caption}-${index}`}>
+            {ele}
+            <span
+              style={{
+                background: "#121212",
+                padding: "12px 12px",
+                borderRadius: "16px",
+                marginTop: "24px",
+                boxSizing: "border-box",
+              }}
+            >
+              {caption}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 };

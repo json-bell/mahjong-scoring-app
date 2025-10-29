@@ -44,6 +44,7 @@ const ApiStatusPill: React.FC = () => {
 
   return (
     <button
+      type="button"
       className={cx(
         styles.apiStatusPill,
         error && styles.error,
