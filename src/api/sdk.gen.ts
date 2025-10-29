@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateGameData, CreateGameErrors, CreateGameHandData, CreateGameHandErrors, CreateGameHandResponses, CreateGameResponses, GetApiEndpointSummaryData, GetApiEndpointSummaryResponses, GetHealthCheckData, GetHealthCheckResponses, ReadGameByIdData, ReadGameByIdErrors, ReadGameByIdResponses, ReadGamesData, ReadGamesResponses, ReadHandsHandsGetData, ReadHandsHandsGetResponses, ReadRootData, ReadRootResponses, ScoreHandData, ScoreHandErrors, ScoreHandResponses } from './types.gen';
+import type { CreateGameData, CreateGameErrors, CreateGameHandData, CreateGameHandErrors, CreateGameHandResponses, CreateGameResponses, GetApiEndpointSummaryData, GetApiEndpointSummaryResponses, GetHealthCheckData, GetHealthCheckResponses, ReadGameByIdData, ReadGameByIdErrors, ReadGameByIdResponses, ReadGamesData, ReadGamesResponses, ReadHandsHandsGetData, ReadHandsHandsGetResponses, ReadRootData, ReadRootResponses, ReadScoringRulesData, ReadScoringRulesResponses, ScoreHandData, ScoreHandErrors, ScoreHandResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -97,6 +97,17 @@ export const createGameHand = <ThrowOnError extends boolean = false>(options: Op
             'Content-Type': 'application/json',
             ...options.headers
         }
+    });
+};
+
+/**
+ * Read Scoring Rules
+ */
+export const readScoringRules = <ThrowOnError extends boolean = false>(options?: Options<ReadScoringRulesData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ReadScoringRulesResponses, unknown, ThrowOnError>({
+        responseType: 'json',
+        url: '/score/rules',
+        ...options
     });
 };
 
