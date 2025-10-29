@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import useScoringRules from "../../hooks/api/useScoringRules";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import styles from "./RuleList.module.scss";
+import { Link } from "react-router-dom";
 
 const RuleList = () => {
   const { rules, error, loading } = useScoringRules();
@@ -16,7 +17,16 @@ const RuleList = () => {
 
   return (
     <div>
-      <h2>Here are the rules used:</h2>
+      <h2>
+        Here are the rules implemented so far (from{" "}
+        <Link
+          to={"http://mahjong.wikidot.com/rules:hong-kong-old-style-scoring"}
+          target="_blank"
+        >
+          Hong-Kong Old Style rules
+        </Link>
+        ):
+      </h2>
       {loading ? (
         <LoadingSpinner />
       ) : error ? (

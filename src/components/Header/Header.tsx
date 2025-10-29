@@ -53,24 +53,29 @@ const Header: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <h2>Navigation</h2>
+            <h2>Menu</h2>
             <h3>Scoring</h3>
             <Link to={"/score/rules"} onClick={onLinkClick}>
               Scoring Rules
             </Link>
+            <h3>Github</h3>
+            <Link
+              to="https://github.com/json-bell/mahjong-scoring-app"
+              target="_blank"
+            >
+              Front-End Repo
+            </Link>
+            <Link to="https://github.com/json-bell/mahjong-api" target="_blank">
+              API Repo
+            </Link>
             <h3>Works in progress</h3>
-            {[
-              "/",
-              "/score",
-              "/score/rules",
-              "/game/create",
-              "/game/join",
-              "/game/3",
-            ].map((url) => (
-              <Link to={url} onClick={onLinkClick} key={url}>
-                {url}
-              </Link>
-            ))}
+            {["/", "/score", "/game/create", "/game/join", "/game/3"].map(
+              (url) => (
+                <Link to={url} onClick={onLinkClick} key={url}>
+                  {url}
+                </Link>
+              )
+            )}
           </nav>
         </Modal>
       </header>
