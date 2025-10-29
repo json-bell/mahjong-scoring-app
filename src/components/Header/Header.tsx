@@ -2,13 +2,19 @@ import { useState } from "react";
 import ApiStatusPill from "../ApiStatus/ApiStatusPill/ApiStatusPill";
 import styles from "./Header.module.scss";
 import Modal from "../Modal/Modal";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const onLinkClick = () => {
+    setIsMenuOpen(false);
+  };
   return (
     <>
       <header className={styles.header}>
         <button
+          type="button"
           className={styles.menuButton}
           onClick={() => {
             setIsMenuOpen((curr) => !curr);
@@ -16,7 +22,9 @@ const Header: React.FC = () => {
         >
           Menu
         </button>
-        <h1>MAHJONG</h1>
+        <h1>
+          <Link to={"/"}>MAHJONG</Link>
+        </h1>
         <div className={styles.apiStatus}>
           <ApiStatusPill />
         </div>
@@ -36,7 +44,7 @@ const Header: React.FC = () => {
             },
           ]}
         >
-          <div
+          <nav
             style={{
               display: "flex",
               flexDirection: "column",
@@ -45,8 +53,25 @@ const Header: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <h3>MENU</h3>
-          </div>
+            <h2>Navigation</h2>
+            <h3>Scoring</h3>
+            <Link to={"/score/rules"} onClick={onLinkClick}>
+              Scoring Rules
+            </Link>
+            <h3>Works in progress</h3>
+            {[
+              "/",
+              "/score",
+              "/score/rules",
+              "/game/create",
+              "/game/join",
+              "/game/3",
+            ].map((url) => (
+              <Link to={url} onClick={onLinkClick} key={url}>
+                {url}
+              </Link>
+            ))}
+          </nav>
         </Modal>
       </header>
     </>
