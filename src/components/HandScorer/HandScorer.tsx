@@ -16,11 +16,10 @@ export const HandScorer = () => {
   const { melds, pair, onMeldChange, onPairChange } = useMahjongHand();
 
   const onScoreHand = () => {
-    const areInputsValid = melds.every(
-      (meld): meld is MeldSchemaInput & { tile: Tile } => {
+    const areInputsValid =
+      melds.every((meld): meld is MeldSchemaInput & { tile: Tile } => {
         return !!(meld.tile && meld.type);
-      }
-    );
+      }) && pair !== null;
     if (!areInputsValid) {
       setError("Meld combination is not valid");
       return;
@@ -28,7 +27,7 @@ export const HandScorer = () => {
 
     const hand: HandCreateSchema = {
       melds,
-      pair: { suit: "circle", value: "5" },
+      pair,
     };
 
     scoreHand({ body: hand })
@@ -38,6 +37,7 @@ export const HandScorer = () => {
           console.error(response.error);
         }
         if (response.status === 200) {
+          console.log(response.data);
           setResult(response.data ?? null);
           setError(null);
         }
