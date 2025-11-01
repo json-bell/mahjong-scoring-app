@@ -38,6 +38,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
   const onModalOpen = () => {
     setStep(isPair ? "suit" : "meldType");
     setAutoContinue(true);
+    if (meldValue.tile) setViewedSuit(meldValue.tile.suit);
   };
   const onModalClose = () => {
     setStep(null);
@@ -45,6 +46,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
 
   const onInputClear = () => {
     onMeldChange({ tile: null, type: null });
+    setViewedSuit(null);
     setStep(null);
     setAutoContinue(true);
   };
