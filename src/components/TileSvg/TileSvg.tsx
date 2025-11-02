@@ -25,11 +25,17 @@ export interface InnerTileSvgProps {
   src: string;
   alt?: string;
   className?: string;
+  imgClassName?: string;
 }
 export const InnerTileSvg: React.FC<InnerTileSvgProps> = ({
   src,
   alt,
   className,
+  imgClassName,
 }) => {
-  return <img src={src} alt={alt} className={cx(styles.tileImg, className)} />;
+  return (
+    <div className={cx(styles.tileImgContainer, className)}>
+      <img src={src} alt={alt} className={cx(styles.tileImg, imgClassName)} />
+    </div>
+  );
 };
