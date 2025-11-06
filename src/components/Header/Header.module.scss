@@ -30,6 +30,9 @@
     border-radius: 8px;
     border: none;
     box-shadow: 2px -2px 4px $tile-mid, 4px -4px 4px $tile-white;
+    color: $text-primary;
+    font-weight: 600;
+    font-size: 1.1rem;
   }
 
   .logo {
