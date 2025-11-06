@@ -22,9 +22,11 @@ const Header: React.FC = () => {
         >
           Menu
         </button>
-        <h1>
-          <Link to={"/"}>MAHJONG</Link>
-        </h1>
+
+        <Link to={"/"} className={styles.logo}>
+          Mahjong
+        </Link>
+
         <div className={styles.apiStatus}>
           <ApiStatusPill />
         </div>

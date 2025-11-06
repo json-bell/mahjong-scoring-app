@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { getHealthCheck } from "../../api";
 
+export type ApiErrorString = "Network Error" | "Internal Error";
+
 interface ApiCheck {
   isReady: boolean;
-  error: null | "Network Error" | "Internal Error";
+  error: null | ApiErrorString;
   onReload: () => void;
 }
 
 export function useApiCheck(/* checkIntervalMs = 20000 */): ApiCheck {
   const [isReady, setIsReady] = useState(false);
-  const [error, setError] = useState<null | "Network Error" | "Internal Error">(
-    null
-  );
+  const [error, setError] = useState<null | ApiErrorString>(null);
 
   const [forceReload, setForceReload] = useState<number>(0);
   const onReload = () => {

@@ -13,10 +13,18 @@ const TileSvg: React.FC<TileSvgProps> = ({
   tile,
   alt = `The ${tile.value} ${tile.suit} tile`,
   className,
+  imgClassName,
 }: TileSvgProps) => {
   const tileSlug = getTileSlug(tile);
   const svgFile = tileSvgs[tileSlug];
-  return <InnerTileSvg src={svgFile} alt={alt} className={className} />;
+  return (
+    <InnerTileSvg
+      src={svgFile}
+      alt={alt}
+      className={className}
+      imgClassName={imgClassName}
+    />
+  );
 };
 
 export default TileSvg;

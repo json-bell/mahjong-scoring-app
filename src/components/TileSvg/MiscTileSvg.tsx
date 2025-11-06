@@ -17,10 +17,18 @@ const MiscTileSvg: React.FC<MiscTileSvgProps> = ({
   slug,
   alt = defaultAltTexts[slug],
   className,
+  imgClassName,
 }) => {
   const svgFile = miscTileSvgs[slug];
 
-  return <InnerTileSvg src={svgFile} alt={alt} className={className} />;
+  return (
+    <InnerTileSvg
+      src={svgFile}
+      alt={alt}
+      className={className}
+      imgClassName={imgClassName}
+    />
+  );
 };
 
 export default MiscTileSvg;

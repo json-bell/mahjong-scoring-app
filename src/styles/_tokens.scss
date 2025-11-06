@@ -16,6 +16,7 @@ $secondary: palette(complimentary, 800);
 $text-primary: rgba(palette(neutral, 50), 0.87);
 $text-secondary: rgba(palette(neutral, 50), 0.6);
 $text-muted: rgba(palette(neutral, 50), 0.38);
+$text-complimentary: rgba(palette(complimentary, 200), 0.87);
 
 $text-dark: palette(neutral, 900);
 
@@ -24,6 +25,7 @@ $success: palette(accent, green);
 $error: palette(accent, red);
 $info: palette(accent, blue);
 $warning: palette(accent, yellow);
+$feedback-border: palette(neutral, 100);
 
 // Tile
 $tile-lit: palette(primary, 900);

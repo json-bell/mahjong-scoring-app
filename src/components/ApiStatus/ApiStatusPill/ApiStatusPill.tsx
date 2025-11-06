@@ -2,45 +2,60 @@ import { useApiCheck } from "../../../hooks/api-status/useApiCheck";
 import { cx } from "../../../utils/classNames";
 import styles from "./ApiStatusPill.module.scss";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
-import { useEffect, useState } from "react";
+import useTimeSinceUpdate from "../../../hooks/useTimeSinceUpdate";
+import TickIcon from "../../Icons/TickIcon";
+import CrossIcon from "../../Icons/CrossIcon";
 
 const ApiStatusPill: React.FC = () => {
   const { error, isReady, onReload } = useApiCheck();
 
-  const [hasStatusLastedLong, setHasStatusLastedLong] = useState(false);
+  const { timeSinceUpdate, resetTimeSinceUpdate } = useTimeSinceUpdate(
+    [
+      { slug: "new", timeMs: 0 },
+      { slug: "short", timeMs: 2000 },
+      { slug: "long", timeMs: 5000 },
+    ],
+    [error, isReady]
+  );
 
   const onRefresh = () => {
-    setHasStatusLastedLong(false);
     onReload();
+    resetTimeSinceUpdate();
   };
 
-  useEffect(() => {
-    setHasStatusLastedLong(false);
-    const timeoutId = setTimeout(() => {
-      setHasStatusLastedLong(true);
-    }, 5000);
-    return () => {
-      clearTimeout(timeoutId);
+  const renderPieces = (): {
+    buttonContents: React.ReactNode;
+    info: React.ReactNode;
+    infoClassName?: string;
+  } => {
+    if (error)
+      return {
+        buttonContents: <CrossIcon size={28} />,
+        info: `${error} - Click here to try again`,
+        infoClassName: cx(timeSinceUpdate === "long" && styles.fadeOut),
+      };
+
+    if (isReady)
+      return {
+        buttonContents: <TickIcon size={28} />,
+        info:
+          timeSinceUpdate !== "long"
+            ? "Connected to the API successfully!"
+            : null,
+        infoClassName: cx(timeSinceUpdate !== "new" && styles.fadeOut),
+      };
+
+    return {
+      buttonContents: <LoadingSpinner size={24} />,
+      info: {
+        new: null,
+        short: "Connecting...",
+        long: "Connecting... The Render API may take up to 3 mins to start...",
+      }[timeSinceUpdate],
     };
-  }, [error, isReady]);
+  };
 
-  const loadingEle: React.ReactNode = (() => {
-    if (error) return <span>{error}</span>;
-
-    if (isReady) return <span>API Connected :)</span>;
-
-    return (
-      <>
-        <span>Connecting...</span>
-        <LoadingSpinner size={16} />
-        {hasStatusLastedLong && (
-          <span className={styles.info}>
-            The Render API may take up to 3 mins to start...
-          </span>
-        )}
-      </>
-    );
-  })();
+  const { buttonContents, info, infoClassName } = renderPieces();
 
   return (
     <button
@@ -52,7 +67,8 @@ const ApiStatusPill: React.FC = () => {
       )}
       onClick={onRefresh}
     >
-      {loadingEle}
+      {buttonContents}
+      {info && <span className={cx(styles.info, infoClassName)}>{info}</span>}
     </button>
   );
 };

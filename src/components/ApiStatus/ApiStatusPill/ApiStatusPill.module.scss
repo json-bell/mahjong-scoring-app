@@ -1,13 +1,15 @@
 @use "@styles" as *;
 
+$infoGap: 16px;
+$pillWidth: 56px;
+
 .apiStatusPill {
-  border-radius: 56px;
+  border-radius: 24px;
   background-color: $warning;
   position: relative;
-  height: 32px;
-  padding: 8px 16px;
+  height: 40px;
+  width: $pillWidth;
   border: none;
-  width: max-content;
 
   color: black;
   font-weight: 500;
@@ -26,32 +28,38 @@
     background-color: $success;
     color: white;
   }
-}
 
-$infoGap: 16px;
+  .info {
+    position: absolute;
+    box-sizing: border-box;
+    padding: 8px;
+    border-radius: 8px;
+    width: 100%;
+    min-width: 160px;
+    top: 100%;
+    z-index: 1;
+    margin-top: $infoGap;
+    right: 0;
+    background-color: inherit;
+    box-shadow: $shadow-400;
+    border: 2px solid $feedback-border;
 
-.info {
-  position: absolute;
-  box-sizing: border-box;
-  padding: 4px;
-  border-radius: 8px;
-  width: 100%;
-  top: 100%;
-  z-index: 1;
-  margin-top: $infoGap;
-  left: 0;
-  background-color: $warning;
-  filter: $shadow-400;
-}
+    &.fadeOut {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease-in-out;
+    }
+  }
 
-.info:after {
-  content: "";
-  position: absolute;
-  top: -$infoGap;
-  left: calc(50% - $infoGap);
-  height: $infoGap;
-  width: calc(2 * $infoGap);
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-  background-color: $warning;
-  z-index: 10;
+  .info:after {
+    content: "";
+    position: absolute;
+    top: -$infoGap;
+    right: $pillWidth / 2 - $infoGap - 8px;
+    height: $infoGap + 8px;
+    width: 2 * $infoGap + 16px;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    background-color: inherit;
+    z-index: 10;
+  }
 }

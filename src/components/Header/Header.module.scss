@@ -13,17 +13,11 @@
   margin: 0px 0px 24px;
 
   display: grid;
-  grid-template-columns: auto 24px 1fr min-content;
-  grid-template-areas: "menu . logo apiStatus";
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "menu logo apiStatus";
+  gap: 16px;
   align-items: center;
-
-  @media screen and (max-width: 480px) {
-    grid-template-columns: auto 24px 1fr;
-    grid-auto-rows: auto;
-    grid-template-areas: "menu . logo" ". . apiStatus";
-    row-gap: 8px;
-  }
-
+  justify-content: center;
   background-color: $surface;
   box-shadow: $shadow-400;
 
@@ -38,16 +32,24 @@
     box-shadow: 2px -2px 4px $tile-mid, 4px -4px 4px $tile-white;
   }
 
-  h1 {
+  .logo {
     grid-area: logo;
-    color: $text-primary;
-    margin: 0;
-    display: inline-block;
+    display: block;
+    place-self: center;
+    padding: 0px 16px;
+
+    color: $text-complimentary;
+    text-decoration: none;
+    font-family: "Brush Script MT", cursive;
+    font-size: 1.6rem;
+    &:hover {
+      color: lighten($text-complimentary, 10%);
+    }
   }
 
   .apiStatus {
     grid-area: apiStatus;
-    place-self: end;
+    justify-self: end;
 
     width: max-content;
     align-items: center;
