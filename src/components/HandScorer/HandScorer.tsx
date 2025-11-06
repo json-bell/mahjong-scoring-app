@@ -58,7 +58,7 @@ export const HandScorer = () => {
               key={id}
               inputId={id}
               meldValue={meldValue}
-              legend={`Meld ${meldIndex}`}
+              legend={`Meld ${meldIndex + 1}`}
               onMeldChange={(newPartialMeld) =>
                 onMeldChange(meldIndex, newPartialMeld)
               }

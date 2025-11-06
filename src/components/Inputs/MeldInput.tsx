@@ -136,40 +136,36 @@ const MeldInput: React.FC<MeldInputProps> = ({
 
   return (
     <>
-      <fieldset className={styles.meldInput}>
-        <legend>{legend}</legend>
-        <button
-          type={"button"}
-          style={{
-            background: "none",
-            border: "none",
-            width: "100%",
-          }}
-          onClick={onModalOpen}
-        >
+      <button
+        type={"button"}
+        onClick={onModalOpen}
+        className={styles.meldInputWrapper}
+      >
+        <fieldset className={styles.meldInput}>
+          <legend className={styles.meldInputLegend}>{legend}</legend>
           <MeldPreview tiles={previewedMeld} />
-        </button>
-        <Modal
-          isOpen={isModalOpen}
-          onClose={onModalClose}
-          belowButtons={[
-            { contents: "Save", onClick: onModalClose, id: "Save" },
-            { contents: "Clear", onClick: onInputClear, id: "Clear" },
-          ]}
-        >
-          {step && (
-            <TabbedContent
-              onTabSelect={(newTab) => {
-                setStep(newTab);
-                setAutoContinue(false);
-              }}
-              activeTab={step}
-              radioId={`meld-${inputId}-step-radio`}
-              tabs={inputTabs}
-            />
-          )}
-        </Modal>
-      </fieldset>
+        </fieldset>
+      </button>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={onModalClose}
+        belowButtons={[
+          { contents: "Save", onClick: onModalClose, id: "Save" },
+          { contents: "Clear", onClick: onInputClear, id: "Clear" },
+        ]}
+      >
+        {step && (
+          <TabbedContent
+            onTabSelect={(newTab) => {
+              setStep(newTab);
+              setAutoContinue(false);
+            }}
+            activeTab={step}
+            radioId={`meld-${inputId}-step-radio`}
+            tabs={inputTabs}
+          />
+        )}
+      </Modal>
     </>
   );
 };
