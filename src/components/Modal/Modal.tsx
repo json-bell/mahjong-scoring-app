@@ -1,6 +1,7 @@
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { useEffect } from "react";
+import { cx } from "../../utils/classNames";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface ModalProps {
     contents: React.ReactNode;
     onClick: () => void;
     id: string;
+    buttonStyle?: "primary" | "secondary" | "secondaryOutline";
   }[];
 }
 
@@ -50,18 +52,23 @@ const Modal: React.FC<ModalProps> = ({
           {children}
         </div>
         <div className={styles.modalButtons}>
-          {belowButtons?.map(({ contents, onClick, id }) => {
-            return (
-              <button
-                key={id}
-                onClick={onClick}
-                className={styles.closeButton}
-                type="button"
-              >
-                {contents}
-              </button>
-            );
-          })}
+          {belowButtons?.map(
+            ({ contents, onClick, id, buttonStyle = "secondary" }) => {
+              return (
+                <button
+                  key={id}
+                  onClick={onClick}
+                  className={cx(
+                    styles[`${buttonStyle}Button`],
+                    styles.modalButton
+                  )}
+                  type="button"
+                >
+                  {contents}
+                </button>
+              );
+            }
+          )}
         </div>
       </div>
     </>,

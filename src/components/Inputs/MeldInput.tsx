@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { MeldState, NumberedSuit, Tile } from "../../domain/types";
-import MeldPreview, { type MeldPreviewProps } from "../MeldPreview/MeldPreview";
+import MeldPreview, {
+  type MeldPreviewProps,
+  type TilePreview,
+} from "../MeldPreview/MeldPreview";
 import { isHonour, parseNumberValue } from "../../domain/tiles";
 import { meldTypes, suits } from "../../domain/enums";
 import TileInput from "./TileInput";
@@ -150,8 +153,18 @@ const MeldInput: React.FC<MeldInputProps> = ({
         isOpen={isModalOpen}
         onClose={onModalClose}
         belowButtons={[
-          { contents: "Save", onClick: onModalClose, id: "Save" },
-          { contents: "Clear", onClick: onInputClear, id: "Clear" },
+          {
+            contents: "Clear",
+            onClick: onInputClear,
+            id: "Clear",
+            buttonStyle: "secondary",
+          },
+          {
+            contents: "Save",
+            onClick: onModalClose,
+            id: "Save",
+            buttonStyle: "primary",
+          },
         ]}
       >
         {step && (
@@ -192,18 +205,21 @@ const getPreviewTiles = ({
   if (type === "kong") return [{ tile }, { tile }, { tile }, { tile }];
 
   // else type chow
-  if (isHonour(tile.suit)) return [{ tile }, ...defaultTiles.slice(0, 2)];
+  if (isHonour(tile.suit))
+    return [{ tile }, { miscTileSlug: "error" }, { miscTileSlug: "error" }];
 
   const numberedSuit: NumberedSuit = tile.suit;
   const numberValue = Number(tile.value);
 
-  const tiles: MeldPreviewProps["tiles"] = [0, 1, 2].map((increment) => {
-    const value = numberValue + increment;
-    const parsedValue = parseNumberValue(value);
-    if (!parsedValue) return { miscTileSvgs: "errors" };
+  const tiles: MeldPreviewProps["tiles"] = [0, 1, 2].map(
+    (increment): TilePreview => {
+      const value = numberValue + increment;
+      const parsedValue = parseNumberValue(value);
+      if (!parsedValue) return { miscTileSlug: "error" };
 
-    return { tile: { suit: numberedSuit, value: parsedValue } };
-  });
+      return { tile: { suit: numberedSuit, value: parsedValue } };
+    }
+  );
 
   return tiles;
 };

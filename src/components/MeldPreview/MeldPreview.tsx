@@ -4,8 +4,13 @@ import MiscTileSvg from "../TileSvg/MiscTileSvg";
 import TileSvg from "../TileSvg/TileSvg";
 import styles from "./MeldPreview.module.scss";
 
+export type TilePreview = {
+  tile?: Tile;
+  miscTileSlug?: MiscTileSlug;
+  caption?: string;
+};
 export interface MeldPreviewProps {
-  tiles?: { tile?: Tile; miscTileSlug?: MiscTileSlug; caption?: string }[];
+  tiles?: TilePreview[];
 }
 
 const MeldPreview: React.FC<MeldPreviewProps> = ({ tiles }) => {

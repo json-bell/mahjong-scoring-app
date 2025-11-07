@@ -40,16 +40,16 @@
   }
 }
 
-@mixin button-outline($color: $button-primary-color) {
+@mixin button-outline {
   @include button-base;
-  background-color: transparent;
-  color: $color;
-  border: 1px solid $color;
+  background-color: $button-outline-bg;
+  color: $button-outline-color;
+  border-color: $button-outline-border;
 
   &:hover {
-    background-color: rgba($color, 0.1);
+    background-color: $button-outline-hover-bg;
   }
   &:active {
-    background-color: rgba($color, 0.2);
+    background-color: $button-outline-active-bg;
   }
 }

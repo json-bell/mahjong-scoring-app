@@ -4,7 +4,12 @@
   background: none;
   border: none;
   width: 80%;
+
+  @media (max-width: 680px) {
+    width: 100%;
+  }
   margin: 8px;
+  place-items: center;
 
   .meldInput {
     width: 100%;
@@ -15,6 +20,7 @@
     border-radius: 16px;
     border-color: $border;
     padding: 16px;
+    margin: 0px auto;
 
     transition: background-color 0.3s ease-in-out;
 
