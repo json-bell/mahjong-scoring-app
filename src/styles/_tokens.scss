@@ -56,6 +56,12 @@ $button-complimentary-border: palette(complimentary, 400);
 $button-complimentary-hover-bg: palette(complimentary, 700);
 $button-complimentary-active-bg: palette(complimentary, 900);
 
+$button-outline-bg: $background;
+$button-outline-color: $text-complimentary;
+$button-outline-border: palette(complimentary, 400);
+$button-outline-hover-bg: $surface-lit;
+$button-outline-active-bg: palette(primary, 900);
+
 // Tabs
 
 $tab-inactive-bg: transparent;
