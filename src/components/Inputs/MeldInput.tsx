@@ -85,7 +85,8 @@ const MeldInput: React.FC<MeldInputProps> = ({
             id={`meld-${inputId}-type`}
             onChange={(newType) => {
               onMeldChange({ type: newType });
-              if (autoContinue) setStep("suit");
+              if (autoContinue || !viewedSuit) setStep("suit");
+              else if (!meldValue.tile?.value) setStep("tileValue");
             }}
             radios={meldTypeRadios}
             selected={meldValue.type}
@@ -106,7 +107,9 @@ const MeldInput: React.FC<MeldInputProps> = ({
             id={`meld-${inputId}-suit`}
             onChange={(newSuit) => {
               setViewedSuit(newSuit);
-              if (autoContinue) setStep("tileValue");
+              setStep("tileValue");
+              if (newSuit !== meldValue.tile?.suit)
+                onMeldChange({ tile: null });
             }}
             radios={suitRadios}
             selected={viewedSuit}
@@ -129,7 +132,9 @@ const MeldInput: React.FC<MeldInputProps> = ({
             suitOptions={viewedSuit ? [viewedSuit] : suits}
             onTileSelect={(newTile) => {
               onMeldChange({ tile: newTile });
-              if (autoContinue) onModalClose();
+              if (!viewedSuit) setViewedSuit(newTile?.suit ?? null);
+              if (!isPair && !meldValue.type) setStep("meldType");
+              else onModalClose();
             }}
           />
         ),
