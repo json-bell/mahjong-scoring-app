@@ -1,7 +1,7 @@
 import type { MiscTileSlug, Tile } from "../../domain/types";
 import { cx } from "../../utils/classNames";
 import MiscTileSvg from "../TileSvg/MiscTileSvg";
-import TileSvg from "../TileSvg/TileSvg";
+import TileSvg from "../TileSvg/PlayingTileSvg";
 import styles from "./MeldPreview.module.scss";
 
 export type TilePreview = {

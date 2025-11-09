@@ -1,0 +1,93 @@
+@use "@styles" as *;
+
+.tileImg {
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.tileImgContainer {
+  aspect-ratio: 14 / 17;
+  overflow: hidden;
+
+  max-width: 100%;
+  width: 100%;
+  max-height: 100%;
+  position: relative;
+}
+
+@mixin placeholder-rect {
+  width: 71%;
+  height: 75%;
+  border-radius: 12%;
+
+  position: absolute;
+
+  &::before {
+    // Border with pseudo-element so as to be dynamically sized with percentages
+    content: "";
+    background-color: $black;
+    inset: -4 * 1.4% -4 * 1.7%; // matches 14 / 17 aspect ratio
+    border-radius: 16%;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.loadingPlaceholder {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+
+  .loadingFrontRect {
+    @include placeholder-rect();
+    top: 20%;
+    left: 6%;
+    &.faceUpFront {
+      background: $tile-face;
+    }
+    &.faceDownFront {
+      background: $tile-lit;
+    }
+  }
+
+  .loadingBackRect {
+    @include placeholder-rect();
+    bottom: 20%;
+    right: 6%;
+    &.faceUpBack {
+      background: $tile-lit;
+    }
+    &.faceDownBack {
+      background: $tile-white;
+    }
+  }
+}
+
+.loadingShimmer {
+  &::after {
+    content: "";
+    border-radius: inherit;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      -60deg,
+      rgba($tile-shimmer, 0) 30%,
+      rgba($tile-shimmer, 0.4) 50%,
+      rgba($tile-shimmer, 0) 70%
+    ); /* shimmer stripe */
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite cubic-bezier(0.3, 0.2, 0.7, 0.8);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

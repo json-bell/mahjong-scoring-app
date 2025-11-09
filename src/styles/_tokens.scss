@@ -32,6 +32,12 @@ $tile-lit: palette(primary, 900);
 $tile-mid: palette(variants, tile-mid);
 $tile-shadow: palette(variants, tile-shadow);
 $tile-white: palette(variants, tile-white);
+$tile-face: linear-gradient(
+  to bottom,
+  palette(variants, tile-face-top) 0%,
+  palette(variants, tile-face-bottom) 100%
+);
+$tile-shimmer: $surface-lit;
 
 $black: palette(neutral, 900);
 $white: palette(neutral, 50);
