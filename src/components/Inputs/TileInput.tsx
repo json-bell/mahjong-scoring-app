@@ -2,7 +2,7 @@ import type { Suit } from "../../api";
 import type { Tile } from "../../domain/types";
 import { getTileSlug, tilesBySuit } from "../../domain/tiles";
 import { suits } from "../../domain/enums";
-import TileSvg from "../TileSvg/TileSvg";
+import PlayingTileSvg from "../TileSvg/PlayingTileSvg";
 import styles from "./TileInput.module.scss";
 import { cx } from "../../utils/classNames";
 
@@ -45,7 +45,7 @@ const TileInput = ({
                   onTileSelect(tileOption);
                 }}
               />
-              <TileSvg tile={tileOption} />
+              <PlayingTileSvg tile={tileOption} />
               {tileOption.value}
             </label>
           );
