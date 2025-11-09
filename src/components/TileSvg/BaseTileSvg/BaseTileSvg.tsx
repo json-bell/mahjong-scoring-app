@@ -57,6 +57,9 @@ const SkeletonTileSvg: React.FC<
     <div
       className={cx(styles.tileImg, styles.loadingPlaceholder, imgClassName)}
     >
+      <div className={cx(styles.loadingRectBorder, styles.frontBorder)} />
+
+      <div className={cx(styles.loadingRectBorder, styles.backBorder)} />
       <div
         className={cx(
           styles.loadingTileRect,
