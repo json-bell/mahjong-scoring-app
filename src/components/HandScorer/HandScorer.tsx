@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   scoreHand,
-  type HandCreateSchema,
+  type HandSchemaInput,
   type HandScoreExplanation,
   type MeldSchemaInput,
 } from "../../api";
@@ -25,7 +25,7 @@ export const HandScorer = () => {
       return;
     }
 
-    const hand: HandCreateSchema = {
+    const hand: HandSchemaInput = {
       melds,
       pair,
     };

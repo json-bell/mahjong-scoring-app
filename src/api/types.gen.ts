@@ -13,7 +13,10 @@ export type DragonValue = 'red' | 'green' | 'white';
  * GameCreateSchema
  */
 export type GameCreateSchema = {
-    [key: string]: unknown;
+    /**
+     * Players
+     */
+    players?: Array<PlayerCreateSchema> | null;
 };
 
 /**
@@ -27,11 +30,15 @@ export type GameDetailSchema = {
     /**
      * Created At
      */
-    created_at?: string | null;
+    created_at: string | null;
     /**
      * Hands
      */
-    hands: Array<HandOutSchema>;
+    hands: Array<ScoredHandOutSchema>;
+    /**
+     * Players
+     */
+    players: Array<PlayerOutSchema>;
 };
 
 /**
@@ -45,7 +52,7 @@ export type GameOutSchema = {
     /**
      * Created At
      */
-    created_at?: string | null;
+    created_at: string | null;
 };
 
 /**
@@ -59,9 +66,9 @@ export type HttpValidationError = {
 };
 
 /**
- * HandCreateSchema
+ * HandSchema
  */
-export type HandCreateSchema = {
+export type HandSchemaInput = {
     /**
      * Melds
      */
@@ -70,26 +77,14 @@ export type HandCreateSchema = {
 };
 
 /**
- * HandOutSchema
+ * HandSchema
  */
-export type HandOutSchema = {
+export type HandSchemaOutput = {
     /**
      * Melds
      */
     melds: Array<MeldSchemaOutput>;
     pair: TileSchema;
-    /**
-     * Id
-     */
-    id: number;
-    /**
-     * Game Id
-     */
-    game_id: number;
-    /**
-     * Created At
-     */
-    created_at?: string | null;
 };
 
 /**
@@ -133,6 +128,49 @@ export type MeldType = 'chow' | 'pong' | 'kong';
 export type NumberValue = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 
 /**
+ * PlayerCreateSchema
+ */
+export type PlayerCreateSchema = {
+    player_slot: PlayerSlot;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Score
+     */
+    score?: number;
+};
+
+/**
+ * PlayerOutSchema
+ */
+export type PlayerOutSchema = {
+    player_slot: PlayerSlot;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Score
+     */
+    score?: number;
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Game Id
+     */
+    game_id: number;
+};
+
+/**
+ * PlayerSlot
+ */
+export type PlayerSlot = 1 | 2 | 3 | 4;
+
+/**
  * RuleExplanation
  */
 export type RuleExplanation = {
@@ -155,6 +193,38 @@ export type RuleExplanation = {
  * RuleSlug
  */
 export type RuleSlug = 'no_flowers_and_no_seasons' | 'seat_flower' | 'seat_season' | 'all_chows' | 'dragon_pung' | 'seat_wind' | 'prevalent_wind' | 'self_drawn_win' | 'last_tile_draw' | 'last_tile_discard' | 'robbing_the_kong' | 'out_on_replacement' | 'all_flowers' | 'all_seasons' | 'all_pungs' | 'half_flush' | 'little_three_dragons' | 'seven_pairs' | 'full_flush' | 'four_concealed_pungs' | 'big_three_dragons' | 'little_four_winds' | 'big_four_winds' | 'all_honors' | 'all_terminals' | 'nine_gates' | 'thirteen_orphans' | 'all_kongs' | 'jade_dragon' | 'ruby_dragon' | 'pearl_dragon' | 'blessing_of_heaven' | 'blessing_of_earth';
+
+/**
+ * ScoredHandCreateSchema
+ */
+export type ScoredHandCreateSchema = {
+    hand: HandSchemaInput;
+    player_slot: PlayerSlot;
+};
+
+/**
+ * ScoredHandOutSchema
+ */
+export type ScoredHandOutSchema = {
+    hand: HandSchemaOutput;
+    player_slot: PlayerSlot;
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Game Id
+     */
+    game_id: number;
+    /**
+     * Created At
+     */
+    created_at: string | null;
+    /**
+     * Score
+     */
+    score: number;
+};
 
 /**
  * ScoringRule
@@ -215,7 +285,7 @@ export type ValidationError = {
 export type WindValue = 'east' | 'south' | 'west' | 'north';
 
 export type ScoreHandData = {
-    body: HandCreateSchema;
+    body: HandSchemaInput;
     path?: never;
     query?: never;
     url: '/hands/score';
@@ -239,19 +309,22 @@ export type ScoreHandResponses = {
 
 export type ScoreHandResponse = ScoreHandResponses[keyof ScoreHandResponses];
 
-export type ReadHandsHandsGetData = {
+export type ReadHandsData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/hands/';
 };
 
-export type ReadHandsHandsGetResponses = {
+export type ReadHandsResponses = {
     /**
+     * Response Readhands
      * Successful Response
      */
-    200: unknown;
+    200: Array<ScoredHandOutSchema>;
 };
+
+export type ReadHandsResponse = ReadHandsResponses[keyof ReadHandsResponses];
 
 export type ReadGamesData = {
     body?: never;
@@ -326,7 +399,7 @@ export type ReadGameByIdResponses = {
 export type ReadGameByIdResponse = ReadGameByIdResponses[keyof ReadGameByIdResponses];
 
 export type CreateGameHandData = {
-    body: HandCreateSchema;
+    body: ScoredHandCreateSchema;
     path: {
         /**
          * Game Id
@@ -350,7 +423,7 @@ export type CreateGameHandResponses = {
     /**
      * Successful Response
      */
-    200: HandOutSchema;
+    200: ScoredHandOutSchema;
 };
 
 export type CreateGameHandResponse = CreateGameHandResponses[keyof CreateGameHandResponses];
