@@ -1,10 +1,6 @@
 import { useState } from "react";
-import type { MeldState, NumberedSuit, Tile } from "../../domain/types";
-import MeldPreview, {
-  type MeldPreviewProps,
-  type TilePreview,
-} from "../MeldPreview/MeldPreview";
-import { isHonour, parseNumberValue } from "../../domain/tiles";
+import type { Meld } from "../../domain/types";
+import MeldPreview from "../MeldPreview/MeldPreview";
 import { meldTypes, suits } from "../../domain/enums";
 import TileInput from "./TileInput";
 import styles from "./MeldInput.module.scss";
@@ -15,10 +11,11 @@ import TabbedContent, {
 import RadioList, { type RadioType } from "../RadioList/RadioList";
 import type { MeldType, Suit } from "../../api";
 import { capitalise } from "../../utils/text-utils";
+import meldToTilePreviews from "../../domain/mappers/meldToTiles";
 
 interface MeldInputProps {
-  meldValue: MeldState;
-  onMeldChange: (newPartialMeld: Partial<MeldState>) => void;
+  meldValue: Meld;
+  onMeldChange: (newPartialMeld: Partial<Meld>) => void;
   legend: string;
   inputId: string;
   isPair?: boolean;
@@ -54,7 +51,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
     setAutoContinue(true);
   };
 
-  const previewedMeld = getPreviewTiles(
+  const previewedMeld = meldToTilePreviews(
     isPair ? { tile: meldValue.tile, type: "pair" } : meldValue
   );
 
@@ -151,7 +148,7 @@ const MeldInput: React.FC<MeldInputProps> = ({
       >
         <fieldset className={styles.meldInput}>
           <legend className={styles.meldInputLegend}>{legend}</legend>
-          <MeldPreview tiles={previewedMeld} />
+          <MeldPreview previews={previewedMeld} />
         </fieldset>
       </button>
       <Modal
@@ -189,42 +186,3 @@ const MeldInput: React.FC<MeldInputProps> = ({
 };
 
 export default MeldInput;
-
-type PreviewedTileParams = MeldState | { type: "pair"; tile: Tile | null };
-
-const defaultTiles: MeldPreviewProps["tiles"] = [1, 2, 3].map(() => ({
-  miscTileSlug: "any",
-}));
-
-const getPreviewTiles = ({
-  tile,
-  type,
-}: PreviewedTileParams): MeldPreviewProps["tiles"] => {
-  if (type === "pair") {
-    if (!tile) return defaultTiles.slice(0, 2);
-    return [{ tile }, { tile }];
-  }
-  if (!type || !tile) return defaultTiles;
-
-  if (type === "pong") return [{ tile }, { tile }, { tile }];
-  if (type === "kong") return [{ tile }, { tile }, { tile }, { tile }];
-
-  // else type chow
-  if (isHonour(tile.suit))
-    return [{ tile }, { miscTileSlug: "error" }, { miscTileSlug: "error" }];
-
-  const numberedSuit: NumberedSuit = tile.suit;
-  const numberValue = Number(tile.value);
-
-  const tiles: MeldPreviewProps["tiles"] = [0, 1, 2].map(
-    (increment): TilePreview => {
-      const value = numberValue + increment;
-      const parsedValue = parseNumberValue(value);
-      if (!parsedValue) return { miscTileSlug: "error" };
-
-      return { tile: { suit: numberedSuit, value: parsedValue } };
-    }
-  );
-
-  return tiles;
-};

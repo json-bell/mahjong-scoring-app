@@ -1,14 +1,11 @@
-import NotFoundPage from "./NotFoundPage";
+import GameList from "../components/GameList/GameList";
 
 const JoinGamePage: React.FC = () => {
   return (
     <>
-      <h2>Join a game...</h2>
+      <h2>Join a game:</h2>
       <br />
-      <br />
-      This page is not yet implemented. Please come back later <br />
-      <br />
-      <NotFoundPage />
+      <GameList />
     </>
   );
 };

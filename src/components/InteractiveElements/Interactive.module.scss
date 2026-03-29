@@ -1,0 +1,5 @@
+.link:not(.hyperlink),
+a:not(.hyperlink) {
+  color: inherit;
+  text-decoration: none;
+}

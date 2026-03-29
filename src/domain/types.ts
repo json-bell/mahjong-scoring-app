@@ -31,7 +31,7 @@ export type TileSlug =
   | `${DragonValue}-dragon`
   | `${WindValue}-wind`;
 
-export type MeldState = {
+export type Meld = {
   type: MeldType | null;
   tile: Tile | null;
 };

@@ -1,0 +1,22 @@
+@use "@styles" as *;
+
+.gameList {
+  display: flex;
+  gap: 32px;
+  padding: 0;
+
+  .gameListItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 16px 24px;
+    border: 1px solid $border;
+    background-color: $surface;
+    border-radius: 16px;
+
+    transition: scale 0.2s ease-in-out;
+    &:hover {
+      scale: 1.1;
+    }
+  }
+}

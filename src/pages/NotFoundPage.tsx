@@ -1,10 +1,10 @@
 import MeldPreview from "../components/MeldPreview/MeldPreview";
 import type { Tile } from "../domain/types";
 
-const tiles404: { tile: Tile; caption: string }[] = [
-  { tile: { suit: "bamboo", value: "4" }, caption: "4" },
-  { tile: { suit: "dragon", value: "white" }, caption: "0" },
-  { tile: { suit: "bamboo", value: "4" }, caption: "4" },
+const tiles404: { tile: Tile }[] = [
+  { tile: { suit: "bamboo", value: "4" } },
+  { tile: { suit: "dragon", value: "white" } },
+  { tile: { suit: "bamboo", value: "4" } },
 ];
 
 const NotFoundPage: React.FC = () => {
@@ -19,7 +19,7 @@ const NotFoundPage: React.FC = () => {
           margin: "16px",
         }}
       >
-        <MeldPreview tiles={tiles404} />
+        <MeldPreview previews={tiles404} />
       </div>
       Oh no! Looks like you're lost... Here are some links you may have been
       looking for:
