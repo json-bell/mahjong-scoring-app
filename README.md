@@ -1,6 +1,8 @@
 # Hosting
 
-Hosted through Netlify with integrated CI/CD - current status: [![Netlify Status](https://api.netlify.com/api/v1/badges/2af1895a-5e23-4f92-8fe5-5b6ef74cd9d4/deploy-status)](https://app.netlify.com/projects/mahjong-scoring/deploys)
+Hosted through Netlify with integrated CI/CD [here](https://mahjong-scoring.netlify.app/) - current status: [![Netlify Status](https://api.netlify.com/api/v1/badges/2af1895a-5e23-4f92-8fe5-5b6ef74cd9d4/deploy-status)](https://app.netlify.com/projects/mahjong-scoring/deploys)
+
+The back-end Python API can be found at https://github.com/json-bell/mahjong-api
 
 # Mahjong Tile SVGs
 
