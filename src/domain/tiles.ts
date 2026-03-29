@@ -73,3 +73,21 @@ const isHonourLookup = {
 
 export const isHonour = (suit: Suit): suit is "dragon" | "wind" =>
   isHonourLookup[suit];
+
+/** Returns false if the Partial Tile cannot be used to define a chow
+ *
+ * This is the case when:
+ * - the suit is a dragon or wind
+ * - the number is larger than
+ *
+ * treating insufficient information as Chowable
+ */
+export const isTileChowable = (tile: Partial<Tile> | null) => {
+  if (!tile) return true;
+
+  if (tile.suit && isHonour(tile.suit)) return false;
+
+  if (tile.value && (tile.value === "8" || tile.value === "9")) return false;
+
+  return true;
+};

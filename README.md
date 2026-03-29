@@ -8,6 +8,15 @@ The back-end Python API can be found at https://github.com/json-bell/mahjong-api
 
 Sourced from https://commons.wikimedia.org/w/index.php?title=Category:SVG_Oblique_illustrations_of_Mahjong_tiles
 
+# Spinning up locally:
+
+`yarn dev` here
+
+Then either:
+
+- Option 1: spin up local API from the [back-end repo](https://github.com/json-bell/mahjong-api) (with `VITE_API_URL=http://localhost:8000`)
+- Option 2: Modify .env.development to contain the production endpoint with `echo "VITE_API_URL=https://mahjong-api.onrender.com" > .env.development`
+
 ## Technologies used
 
 - **Frontend:** React (v19) with TypeScript
